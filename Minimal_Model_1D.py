@@ -38,7 +38,7 @@ class oneD_Minimal_Model:
             epsilon (float): Kx^4 prefactor to remove higher k states from dipping
 
         Notes:
-            - The ordering of lattice points is from left to right, bottom to top, similar to a 2D graph.
+            - The ordering of lattice points is from left to right, bottom to top, similar to x and y axis in 2D graph paper.
         """
         
         self.n = n
