@@ -24,7 +24,7 @@ gamma3 = 5.69
 Note: The effective heavy hole model has been derived assuming quantum well potential i z direction and  treating the Ez term in z direction 
 as  perturbative. Electric field values and z direction terms, if any, should be taken in accordance to the above.
 '''
-class Eff_hh_model_cubic_param():
+class Eff_hh_model_cubic_param:
 
     def __init__(g1 = gamma1, g2 = gamma2, g3 = gamma3, m=1, Lz=5, E_strain=0):
 
