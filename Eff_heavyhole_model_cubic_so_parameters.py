@@ -24,49 +24,64 @@ gamma3 = 5.69
 Note: The effective heavy hole model has been derived assuming quantum well potential i z direction and  treating the Ez term in z direction 
 as  perturbative. Electric field values and z direction terms, if any, should be taken in accordance to the above.
 '''
+class Eff_hh_model_cubic_param():
 
-def Em(g1 = gamma1, g2 = gamma2, g3 = gamma3, m=1, Lz=1, E_strain=0):
+    __init__(g1 = gamma1, g2 = gamma2, g3 = gamma3, m=1, Lz=1, E_strain=0):
 
-    '''
-    returns Energy of mth heavy hole state on which we are projecting
+        """
+        Initializes a new instance of the Eff_hh_model_cubic_param class.
+        
+        Args:
 
-    Arg:    
-        g1, g2, g3 : material constants, defaults to Germanium constants
-        m : z subband quantum no. , defaults to 1. 
-        m refers to z subband subspace on which Hamiltonian is projected, for effective Heavy hole, we are projecting on one z subband only
-        Lz : z confinement length in nm
-        E_strain : strain energy in meV. Defaults to 0
+            g1, g2, g3 : material constants, defaults to Germanium constants
+            m : z subband quantum no. , defaults to 1. 
+            m refers to z subband subspace on which Hamiltonian is projected, for effective Heavy hole model, we are projecting on one z subband only
+            Lz : z confinement length in nm
+            E_strain : strain energy in meV. Defaults to 0
 
-    '''
+        """
 
-    return (g1-2*g2)*hbm*math.pi**2*m**2/Lz**2 - E_strain
+        self.g1 = g1 
+        self.g2 = g2 
+        self.g3 = g3 
+        self.m = m 
+        self.Lz = Lz 
+        self.Es = E_strain        
 
-def El_hh(g1 = gamma1, g2 = gamma2, g3 = gamma3, l, Lz=1, E_strain=0):
+    def Em():
 
-    '''
-    returns Energy of l_th heavy hole state
+        '''
+        returns Energy of mth heavy hole state on which we are projecting
+        '''
 
-    Arg:    
-        g1, g2, g3 : material constants, defaults to Germanium constants
-        l : z subband quantum no.
-        Lz : z confinement length in nm
-        E_strain : strain energy in meV
+        return (self.g1-2*self.g2)*hbm*math.pi**2*self.m**2/self.Lz**2 - self.Es
 
-    '''
+    def Ep_hh(p):
 
-    return (g1-2*g2)*hbm*math.pi**2*l**2/Lz**2 - E_strain
+        '''
+        returns Energy of p_th heavy hole state
 
-def El_lh(g1 = gamma1, g2 = gamma2, g3 = gamma3, l, Lz=1, E_strain=0):
+        '''
 
-    '''
-    returns Energy of l_th light hole state 
+        return (self.g1-2*self.g2)*hbm*math.pi**2*p**2/self.Lz**2 - self.Es
 
-    Arg:    
-        g1, g2, g3 : material constants, defaults to Germanium constants
-        l : z subband quantum no. 
-        Lz : z confinement length in nm
-        E_strain : strain energy in meV
+    def Ep_lh(p):
 
-    '''
+        '''
+        returns Energy of p_th light hole state
 
-    return (g1+2*g2)*hbm*math.pi**2*l**2/Lz**2 + E_strain
+        '''
+
+        return (self.g1+2*self.g2)*hbm*math.pi**2*p**2/self.Lz**2 + self.Es
+
+    def Del_E_phh(p):
+
+        return Em() - Ep_hh(p) 
+    
+    def Del_E_plh(p):
+
+        return Em() - Ep_lh(p)
+
+    def Del_E_olh(p=1):
+
+        return Em() - Ep_lh(1) 
