@@ -26,7 +26,7 @@ as  perturbative. Electric field values and z direction terms, if any, should be
 '''
 class Eff_hh_model_cubic_param():
 
-    __init__(g1 = gamma1, g2 = gamma2, g3 = gamma3, m=1, Lz=1, E_strain=0):
+    def __init__(g1 = gamma1, g2 = gamma2, g3 = gamma3, m=1, Lz=5, E_strain=0):
 
         """
         Initializes a new instance of the Eff_hh_model_cubic_param class.
@@ -48,7 +48,7 @@ class Eff_hh_model_cubic_param():
         self.Lz = Lz 
         self.Es = E_strain        
 
-    def Em():
+    def Em(self):
 
         '''
         returns Energy of mth heavy hole state on which we are projecting
@@ -56,7 +56,7 @@ class Eff_hh_model_cubic_param():
 
         return (self.g1-2*self.g2)*hbm*math.pi**2*self.m**2/self.Lz**2 - self.Es
 
-    def Ep_hh(p):
+    def Ep_hh(self,p):
 
         '''
         returns Energy of p_th heavy hole state
@@ -65,7 +65,7 @@ class Eff_hh_model_cubic_param():
 
         return (self.g1-2*self.g2)*hbm*math.pi**2*p**2/self.Lz**2 - self.Es
 
-    def Ep_lh(p):
+    def Ep_lh(self,p):
 
         '''
         returns Energy of p_th light hole state
@@ -74,14 +74,27 @@ class Eff_hh_model_cubic_param():
 
         return (self.g1+2*self.g2)*hbm*math.pi**2*p**2/self.Lz**2 + self.Es
 
-    def Del_E_phh(p):
+    def Del_E_phh(self,p):
 
         return Em() - Ep_hh(p) 
     
-    def Del_E_plh(p):
+    def Del_E_plh(self,p):
 
         return Em() - Ep_lh(p)
 
-    def Del_E_olh(p=1):
+    def Del_E_olh(self,p=1):
 
-        return Em() - Ep_lh(1) 
+        return Em() - Ep_lh(1)
+
+    def Eff_mass(self, pmax = 10):
+
+        M = self.g1 + self.g2
+
+        for p in range(pmax):
+
+            p2 = 2*p
+            M = M + 12* self.g3**2 * 16*p2**2/(p2**2 -1)**2/self.Lz**2/Del_E_plh
+
+        return M**(-1)
+
+             
