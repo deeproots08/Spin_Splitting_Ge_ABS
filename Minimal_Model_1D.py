@@ -272,19 +272,47 @@ class oneD_Minimal_Model:
         
         """
 
+        a = self.Kysq_pr(0,0)
+        b = self.Kysq_pr(1,1)
+
+        l1 = a*self.lambda5 + (a+b)/2*(1-self.lambda5)
+        l2 = b*self.lambda5 + (a+b)/2*(1-self.lambda5)
+
         if so == 'cu':
             #print('cu')
 
             if i==j:
 
-                if s ==0 : 
+                if i == 0 :
 
-                    return -1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)) 
-                
-                else:
+                    if s ==0 : 
 
-                    return 1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)) 
-                
+                        return -1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*l1) 
+                    
+                    else:
+
+                        return  1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*l1) 
+                    
+                elif i == 1 :
+
+                    if s ==0 : 
+
+                        return -1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*l2) 
+                    
+                    else:
+
+                        return  1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*l2)
+
+                else : 
+
+                    if s ==0 : 
+
+                        return -1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)) 
+                    
+                    else:
+
+                        return  1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j))
+                             
             else :
 
                 if s ==0 : 
