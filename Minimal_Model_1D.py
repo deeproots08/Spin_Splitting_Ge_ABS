@@ -287,8 +287,8 @@ class oneD_Minimal_Model:
         if so == 'cu':
             #print('cu')
 
-            k_minus_cube = self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j) - 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j) - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j) + 1j*self.Kycube_pr(i,j)*self.onedOP.iden()
-            k_plus_cube =  self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j) + 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j) - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j) - 1j*self.Kycube_pr(i,j)*self.onedOP.iden()
+            k_minus_cube = self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j)*self.lambda1 - 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j)*self.lambda2 - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)*self.lambda3 + 1j*self.Kycube_pr(i,j)*self.onedOP.iden()*self.lambda4
+            k_plus_cube =  self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j)*self.lambda1 + 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j)*self.lambda2 - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)*self.lambda3 - 1j*self.Kycube_pr(i,j)*self.onedOP.iden()*self.lambda4
 
             if s==0:
 
