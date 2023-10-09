@@ -296,7 +296,7 @@ class oneD_Minimal_Model:
             
             else:
 
-                return 1j*self.aplhat*k_plus_cube
+                return 1j*self.alphat*k_plus_cube
 
 
 
