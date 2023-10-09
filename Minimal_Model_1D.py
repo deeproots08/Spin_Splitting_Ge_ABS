@@ -16,7 +16,7 @@ import Operators2D as Op
 
 class oneD_Minimal_Model:
 
-    def __init__(self, n, nsm, nsc, my, ax, omega, alphat, delta=0, meff_sc=1, meff_sm = 1 , mu_sc = 0, mu_sm=0, u0=0, uc=0, px=False,  epsilon=1e-5):
+    def __init__(self, n, nsm, nsc, my, ax, omega, alphat, delta=0, meff_sc=1, meff_sm = 1 , mu_sc = 0, mu_sm=0, u0=0, uc=0, a1=1, a2=1, a3=1, a4=1, a5=1, px=False,  epsilon=1e-5):
         
         """
         Initializes a new instance of the Operators_2d class.
@@ -55,6 +55,11 @@ class oneD_Minimal_Model:
         self.mu_sm  = mu_sm
         self.u0 = u0
         self.uc = uc
+        self.a1 = a1
+        self.a2 = a2
+        self.a3 = a3
+        self.a4 = a4
+        self.a5 = a5
         self.px = px
         self.epsilon = epsilon
         self.onedOP = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False)
@@ -272,21 +277,21 @@ class oneD_Minimal_Model:
 
                 if s ==0 : 
 
-                    return -1j*self.alphat*(self.onedOP.KxCu(kx) - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)) 
+                    return -1j*self.alphat*(self.a1*self.onedOP.KxCu(kx) - self.a2*3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)) 
                 
                 else:
 
-                    return 1j*self.alphat*(self.onedOP.KxCu(kx) - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)) 
+                    return 1j*self.alphat*(self.a1*self.onedOP.KxCu(kx) - self.a2*3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)) 
                 
             else :
 
                 if s ==0 : 
 
-                    return -1j*self.alphat*(-1j*3*self.onedOP.KxSq(kx)*1j*self.Ky_pr(i,j) + 1j*1j*self.Kycube_pr(i,j)*self.onedOP.iden())
+                    return -1j*self.alphat*(self.a3*(-1j)*3*self.onedOP.KxSq(kx)*1j*self.Ky_pr(i,j) + self.a4*1j*1j*self.Kycube_pr(i,j)*self.onedOP.iden())
                 
                 else:
 
-                    return 1j*self.alphat*(1j*3*self.onedOP.KxSq(kx)*1j*self.Ky_pr(i,j) - 1j*1j*self.Kycube_pr(i,j)*self.onedOP.iden())
+                    return 1j*self.alphat*(self.a3*1j*3*self.onedOP.KxSq(kx)*1j*self.Ky_pr(i,j) - self.a4*1j*1j*self.Kycube_pr(i,j)*self.onedOP.iden())
             
         elif so == 'li':
             #print('li')
