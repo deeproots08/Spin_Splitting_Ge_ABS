@@ -34,6 +34,8 @@ class oneD_Minimal_Model:
             mu_s (float): chemical potential of the superconducting region of SNS
             mu_sm (float): chemical potential of the semiconductingconducting region of SNS
             omega (float): energy in meV of the y harmonic confinement potential
+            lambda1 (float): 
+            lambda2 () :
             px (bool, optional): Flag indicating periodicity in x direction. Defaults to False.
             epsilon (float): Kx^4 prefactor to remove higher k states from dipping
 
