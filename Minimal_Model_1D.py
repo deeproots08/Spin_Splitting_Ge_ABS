@@ -78,13 +78,21 @@ class oneD_Minimal_Model:
 
         return self.omega*(ney+ nez+ 1)
     
+    def Ky_iden_pr(self,p,r):
+
+        if p==r:
+
+            return 1
+        
+        else:
+
+            return 0 
+
     def Ky_pr(self, p, r):
 
         """
-        returns -i <p|ky|r>
+        returns  <p|ky|r>
 
-        Note: -i factor in the front is because typically <p|ky^3|r> = i alpha and we want alpha returned
-        
         Args:
             p, r (int): refers to p and r th sho wavefunction used to calculate <p|ky|r>
         
@@ -94,11 +102,11 @@ class oneD_Minimal_Model:
 
         if p==r+1 :
 
-            return N*cmath.sqrt(r+1)
+            return 1j*N*cmath.sqrt(r+1)
         
         elif ( p==r-1 ) :
 
-            return -N*cmath.sqrt(r)
+            return -1j*N*cmath.sqrt(r)
         
         else :
 
@@ -107,10 +115,8 @@ class oneD_Minimal_Model:
     def Kycube_pr(self, p, r):
 
         """
-        returns -i <p|ky^3|r>
+        returns  <p|ky^3|r>
 
-        Note: -i factor in the front is because typically <p|ky^3|r> = i beta and we want beta returned  
-        
         Args:
             p, r (int): refers to p and r th sho wavefunction used to calculate <p|ky|r>
 
@@ -121,19 +127,19 @@ class oneD_Minimal_Model:
 
         if p==r+1 : 
 
-            return N*(-3)*(r+1)*cmath.sqrt(r+1)
+            return -1j*N*(3)*(r+1)*cmath.sqrt(r+1)
         
         elif ( p==r-1 ) :
 
-            return N*3*r*cmath.sqrt(r)
+            return 1j*N*3*r*cmath.sqrt(r)
         
         elif p == r+3 :
 
-            return N*cmath.sqrt((r+1)*(r+2)*(r+3))
+            return 1j*N*cmath.sqrt((r+1)*(r+2)*(r+3))
         
         elif p == r-3 :
 
-            return -N*cmath.sqrt((r)*(r-1)*(r-2))
+            return -1j*N*cmath.sqrt((r)*(r-1)*(r-2))
         
         else :
             
@@ -281,48 +287,19 @@ class oneD_Minimal_Model:
         if so == 'cu':
             #print('cu')
 
-            if i==j:
+            k_minus_cube = self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j) - 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j) - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j) + 1j*self.Kycube_pr(i,j)*self.onedOP.iden()
+            k_plus_cube =  self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j) + 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j) - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j) - 1j*self.Kycube_pr(i,j)*self.onedOP.iden()
 
-                if i == 0 :
+            if s==0:
 
-                    if s ==0 : 
-
-                        return -1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*l1) 
-                    
-                    else:
-
-                        return  1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*l1) 
-                    
-                elif i == 1 :
-
-                    if s ==0 : 
-
-                        return -1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*l2) 
-                    
-                    else:
-
-                        return  1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*l2)
-
-                else : 
-
-                    if s ==0 : 
-
-                        return -1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)) 
-                    
-                    else:
-
-                        return  1j*self.alphat*(self.lambda1*self.onedOP.KxCu(kx) - self.lambda2*3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j))
-                             
-            else :
-
-                if s ==0 : 
-
-                    return -1j*self.alphat*(self.lambda3*(-1j)*3*self.onedOP.KxSq(kx)*1j*self.Ky_pr(i,j) + self.lambda4*1j*1j*self.Kycube_pr(i,j)*self.onedOP.iden())
-                
-                else:
-
-                    return 1j*self.alphat*(self.lambda3*1j*3*self.onedOP.KxSq(kx)*1j*self.Ky_pr(i,j) - self.lambda4*1j*1j*self.Kycube_pr(i,j)*self.onedOP.iden())
+                return -1j*self.alphat*k_minus_cube
             
+            else:
+
+                return 1j*self.aplhat*k_plus_cube
+
+
+
         elif so == 'li':
             #print('li')
             # Linear SOC #
