@@ -47,13 +47,13 @@ MU_SC = MU
 MU_SM = MU
 '''
 
-W = np.linspace(20, 100, 3)
+W = np.linspace(20, 100, 101)
 
 OMEGA = 2*4*hbm/W**2/MEFF_SC
 
 OMEGA = OMEGA[::-1]
 
-MU_ex = np.linspace(0.001, OMEGA[-1]*2, 3)
+MU_ex = np.linspace(0.001, OMEGA[-1]*2, 101)
 
 MU =    OMEGA + MU_ex
 
@@ -93,7 +93,7 @@ for i in range(OMEGA.shape[0]):
 
         print(i,j, '\t', round(t2-t1) )
 
-        if i%1 == 0 and j%1 == 0:
+        if i%10 == 0 and j%10 == 0:
 
             data_folder3 = f'data_till_omega_{OMEGA[i]:.1f}_mu_{MU[j]:.1f}'
             folder_loc3 = os.path.join(folder_loc2, data_folder3 )
