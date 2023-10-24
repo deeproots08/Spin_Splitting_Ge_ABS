@@ -48,6 +48,8 @@ W = np.linspace(20, 100, 101)
 
 OMEGA = 2*4*hbm/W**2/MEFF_SC
 
+OMEGA = OMEGA[::-1]
+
 MU_ex = np.linspace(0, OMEGA[0]*2, 101)
 
 MU =    OMEGA + MU_ex
@@ -63,7 +65,6 @@ root = Path.cwd()
 data_folder1 = 'result_dataset' 
 folder_loc1 = os.path.join(root, data_folder1 )
 os.makedirs(folder_loc1, exist_ok=True)
-
 data_folder2 = f'cubic_spin_Split_map_soc_{ALPHAT}_nsm_{NSM}'
 folder_loc2 = os.path.join( folder_loc1, data_folder2 )
 os.makedirs(folder_loc2, exist_ok=True)
