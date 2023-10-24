@@ -96,7 +96,38 @@ for i in range(OMEGA.shape[0]):
 
 print(f"Variables saved to '{varfile_path}'")
 
-print(Ep_Split_cu)
+plt.rc('font', size=18)
+
+plt.figure(figsize=(10, 8))
 
 plt.contourf(OMEGA_G, MU_G, Ep_Split_cu)
+
+# Increase the font size of the axes labels and title
+plt.xlabel(r'$\Omega$(in meV)', fontsize=24)
+plt.ylabel(r'$\mu$ (in meV)', fontsize=24)
+plt.title(r'Cubic Spin splitting map', fontsize=24)
+
+#plt.grid(True)
+plt.grid(True)
+#plt.legend(['E1', 'E2', 'E3', 'E4', 'E5'])
+
+# Set x-axis limits to -1 and +1
+#plt.xlim(-1, 1)
+
+plt.tight_layout()
+
+# Increase the number of ticks on the x-axis
+#plt.xticks(np.linspace(-1, 1, num=10))
+
+# Increase the number of ticks on the y-axis
+#plt.yticks(np.linspace(np.min(Ep2), np.max(Ep2), num=10))
+
+
+# Adjust subplot parameters to remove white space
+#plt.subplots_adjust(left=0.08, bottom=0.08, right=0.95, top=0.92)
+
+# Save the plot as an image file
+plt.savefig(os.path.join(folder_loc2, 'cubic_spin_split_map.png'))
+
+
 plt.show()
