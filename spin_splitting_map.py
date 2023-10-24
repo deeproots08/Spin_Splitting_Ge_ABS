@@ -50,7 +50,7 @@ OMEGA = 2*4*hbm/W**2/MEFF_SC
 
 OMEGA = OMEGA[::-1]
 
-MU_ex = np.linspace(0, OMEGA[0]*2, 2)
+MU_ex = np.linspace(0, OMEGA[-1]*2, 2)
 
 MU =    OMEGA + MU_ex
 
