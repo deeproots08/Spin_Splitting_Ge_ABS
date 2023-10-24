@@ -44,13 +44,14 @@ MU = OMEGA + MU0 + math.tan(THETA)*OMEGA
 MU_SC = MU
 MU_SM = MU
 '''
-W = np.linspace(20, 100, 2)
+
+W = np.linspace(20, 100, 3)
 
 OMEGA = 2*4*hbm/W**2/MEFF_SC
 
 OMEGA = OMEGA[::-1]
 
-MU_ex = np.linspace(0, OMEGA[-1]*2, 2)
+MU_ex = np.linspace(0.001, OMEGA[-1]*2, 3)
 
 MU =    OMEGA + MU_ex
 
@@ -83,7 +84,7 @@ for i in range(OMEGA.shape[0]):
         
         Ep_Split_cu[i,j] = (Ecu[K//2+1] - Ecu[K//2])/DELTA
 
-        print(i,j )
+        print(i,j)
 
         if i%1 == 0 and j%1 == 0:
 
@@ -131,6 +132,5 @@ plt.colorbar()
 
 # Save the plot as an image file
 plt.savefig(os.path.join(folder_loc2, 'cubic_spin_split_map.png'))
-
 
 plt.show()
