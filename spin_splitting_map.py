@@ -9,6 +9,7 @@ import os
 import joblib
 from pathlib import Path
 import pickle
+import time
 
 import Minimal_Model_1D as M
 
@@ -70,9 +71,12 @@ data_folder2 = f'cubic_spin_Split_map_soc_{ALPHAT}_nsm_{NSM}'
 folder_loc2 = os.path.join( folder_loc1, data_folder2 )
 os.makedirs(folder_loc2, exist_ok=True)
 
+
 for i in range(OMEGA.shape[0]):
 
     for j in range(MU.shape[0]):
+
+        t1 = time.time()
 
         Fcu = M.oneD_Minimal_Model(N, NSM, NSC, MY, AX, OMEGA[i], ALPHAT, DELTA, MEFF_SC, MEFF_SM, MU[j], MU[j])
         
@@ -84,7 +88,9 @@ for i in range(OMEGA.shape[0]):
         
         Ep_Split_cu[i,j] = (Ecu[K//2+1] - Ecu[K//2])/DELTA
 
-        print(i,j)
+        t2 = time.time()
+
+        print(i,j, '\t', round(t2-t1) )
 
         if i%1 == 0 and j%1 == 0:
 
