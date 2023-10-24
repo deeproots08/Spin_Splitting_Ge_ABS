@@ -44,15 +44,15 @@ MU = OMEGA + MU0 + math.tan(THETA)*OMEGA
 MU_SC = MU
 MU_SM = MU
 '''
-W = np.linspace(20, 100, 3)
+W = np.linspace(20, 100, 2)
 
 OMEGA = 2*4*hbm/W**2/MEFF_SC
 
-MU_ex = np.linspace(0, OMEGA[0]*2, 3)
+MU_ex = np.linspace(0, OMEGA[0]*2, 2)
 
 MU =    OMEGA + MU_ex
 
-OMEGA_G, MU_G = np.meshgrid(OMEGA, MU)
+OMEGA_G, MU_G = np.meshgrid(OMEGA, MU) 
 
 
 K = 8
@@ -115,6 +115,8 @@ plt.grid(True)
 #plt.xlim(-1, 1)
 
 plt.tight_layout()
+
+plt.colorbar()
 
 # Increase the number of ticks on the x-axis
 #plt.xticks(np.linspace(-1, 1, num=10))
