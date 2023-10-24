@@ -44,11 +44,11 @@ MU = OMEGA + MU0 + math.tan(THETA)*OMEGA
 MU_SC = MU
 MU_SM = MU
 '''
-W = np.linspace(20, 100, 2)
+W = np.linspace(20, 100, 101)
 
 OMEGA = 2*4*hbm/W**2/MEFF_SC
 
-MU_ex = np.linspace(0, OMEGA[0]*2, 2)
+MU_ex = np.linspace(0, OMEGA[0]*2, 101)
 
 MU =    OMEGA + MU_ex
 
