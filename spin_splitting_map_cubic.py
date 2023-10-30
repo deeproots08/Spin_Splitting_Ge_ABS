@@ -103,6 +103,14 @@ for i in range(OMEGA.shape[0]):
             # Save all variables to a file using joblib
             joblib.dump(Ep_Split_cu, varfile_path)
 
+data_folder3 = f'data_till_omega_{OMEGA[i]:.1f}_mu_{MU[j]:.1f}'
+folder_loc3 = os.path.join(folder_loc2, data_folder3 )
+os.makedirs(folder_loc3, exist_ok=True)
+
+varfile_path = os.path.join(folder_loc3, 'variables.pkl')
+# Save all variables to a file using joblib
+joblib.dump(Ep_Split_cu, varfile_path)
+
 print(f"Variables saved to '{varfile_path}'")
 
 plt.rc('font', size=16)          ### determines tick size as well
