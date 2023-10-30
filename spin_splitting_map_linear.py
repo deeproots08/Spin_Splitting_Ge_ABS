@@ -35,13 +35,13 @@ N = 2*NSC + NSM
 PHI = 0.5*np.pi 
 ALPHAT = 20  #meV-nm^3 # 20 is within perturbative regime for widths atleast up to 100 nm
 
-W = np.linspace(20, 100, 3)
+W = np.linspace(20, 100, 101)
 
 OMEGA = 2*4*hbm/W**2/MEFF_SC
 
 OMEGA = OMEGA[::-1]
 
-MU_ex = np.linspace(0.001, OMEGA[-1]*2, 3)
+MU_ex = np.linspace(0.001, OMEGA[-1]*2, 101)
 
 MU =    OMEGA + MU_ex
 
