@@ -333,15 +333,15 @@ class oneD_Minimal_Model:
 
                 if s ==0 : 
 
-                    return 1j*self.alphat*(self.onedOP.Kx(kx))
+                    return 1j*self.alphat*(self.onedOP.Kx(kx))*self.lambda1
                 
                 else:
 
-                    return -1j*self.alphat*(self.onedOP.Kx(kx))
+                    return -1j*self.alphat*(self.onedOP.Kx(kx))*self.lambda1
                 
             else :
 
-                return self.alphat*(1j*self.Ky_pr(i,j))*self.onedOP.iden()        
+                return self.alphat*(1j*self.Ky_pr(i,j))*self.onedOP.iden()*self.lambda2        
         
         else:
 
