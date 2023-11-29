@@ -330,7 +330,8 @@ class oneD_Minimal_Model:
             #print('li')
             # Linear SOC #
             if i==j:
-
+                ### Note in later definitions, soc coupling is evoked only when s!=s' ###
+                ### Hence not coding that statement here ###
                 if s ==0 : 
 
                     return 1j*self.alphat*(self.onedOP.Kx(kx))*self.lambda1
@@ -341,7 +342,7 @@ class oneD_Minimal_Model:
                 
             else :
 
-                return self.alphat*(1j*self.Ky_pr(i,j))*self.onedOP.iden()*self.lambda2        
+                return self.alphat*(self.Ky_pr(i,j))*self.onedOP.iden()*self.lambda2        
         
         else:
 
