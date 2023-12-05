@@ -52,6 +52,7 @@ class Model:
         self.kxcu = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).KxCu(kx=0)
 
         self.omega_minus = self.omega/2
+        self.omega_plus = 3*self.omega/2
         self.kappa = math.sqrt(self.omega*self.meff/4/hbm)
         self.total = math.sqrt(self.omega_minus**2+(self.alphat*self.kappa)**2)
         self.cos = self.omega_minus/self.total
@@ -60,11 +61,11 @@ class Model:
 
     def HA(self):
 
-        return hbm/self.meff*self.kxsq - self.mu_lattice - (self.alphat*self.sin)**2*self.kxsq/2/self.total
+        return hbm/self.meff*self.kxsq + self.omega_plus*self.iden - self.mu_lattice -self.total - (self.alphat*self.sin)**2*self.kxsq/2/self.total
 
     def HB(self):
 
-        return self.alphat*self.kx*self.cos - self.alphat**3*self.sin**2*self.cos*self.kxcu/2/self.total
+        return -self.alphat*self.kx*self.cos + self.alphat**3*self.sin**2*self.cos*self.kxcu/2/self.total**2
     
     def Delta_matrix(self):
 
