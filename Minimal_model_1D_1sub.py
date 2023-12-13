@@ -61,7 +61,7 @@ class Model:
 
     def HA(self):
 
-        return hbm/self.meff*self.kxsq + self.omega_plus*self.iden - self.mu_lattice -self.total - (self.alphat*self.sin)**2*self.kxsq/2/self.total
+        return hbm/self.meff*self.kxsq + self.omega_plus*self.iden - self.mu_lattice -self.total*self.iden - (self.alphat*self.sin)**2*self.kxsq/2/self.total
 
     def HB(self):
 
