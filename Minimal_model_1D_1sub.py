@@ -27,11 +27,14 @@ class Model:
             nsm (int): The number of horizontal lattice points of the semiconductor weak link.
             nsc (int): The number of horizontal lattice points of the superconductor on both sides.
             ax (float): The horizontal (x) lattice spacing.
-            meff (float): Effective mass 
+            omega (float): y subband confinement energy 
             alphat (float): spin orbit coupling constant
             delta (float): superconducting gap (in meV)
+            meff (float): Effective mass
             mu (float): chemical potential of the system (in meV)
             px (bool): toggles periodicity on/off
+            phi (float): superconduncting phase difference across the Josephson junction
+            
         """    
 
         self.n = n
