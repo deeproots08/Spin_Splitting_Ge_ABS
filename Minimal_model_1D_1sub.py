@@ -28,7 +28,7 @@ class Model:
             nsc (int): The number of horizontal lattice points of the superconductor on both sides.
             ax (float): The horizontal (x) lattice spacing.
             omega (float): y subband confinement energy 
-            alphat (float): spin orbit coupling constant
+            alphat (float): spin orbit coupling constant (in meV-nm)
             delta (float): superconducting gap (in meV)
             meff (float): Effective mass
             mu (float): chemical potential of the system (in meV)
@@ -61,6 +61,22 @@ class Model:
         self.cos = self.omega_minus/self.total
         self.sin = self.alphat*self.kappa/self.total
         self.mu_lattice = self.mu*self.iden
+
+    def Modified_Eff_mass(self):
+
+        mmeff_inv = (1/self.meff) - (self.alphat**2*self.sin**2/2/self.total/hbm)
+
+        return 1/mmeff_inv
+
+    def Approx_alpha_inversion(self):
+
+        print('Note that Alpha_kappa is ignored in comparison to Ey- in this calculation')
+
+        print('Ey-(meV) =', self.omega_minus, '\t','Alpha*Kappa(meV) = ', self.alphat*self.kappa)
+
+        alpha_star = math.sqrt(hbm/self.meff*2*self.omega_minus/self.sin**2)
+
+        return alpha_star
 
     def HA(self):
 
