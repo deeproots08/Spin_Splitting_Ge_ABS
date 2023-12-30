@@ -17,7 +17,7 @@ import Operators2D as Op
 
 class Model:
 
-    def __init__(self, n, nsm, nsc, ax, omega, alphat, delta=0, meff=1, mu = 0, px=False, phi=0):
+    def __init__(self, n, nsm, nsc, ax, omega, alphat, delta=0, meff=1, mu = 0,  phi=0, px=False, kx0=0):
 
         """
         Initializes a new instance of the Operators_2d class.
@@ -46,13 +46,14 @@ class Model:
         self.delta = delta
         self.meff = meff
         self.mu = mu
+        self.phi = phi    
         self.px = px
-        self.phi = phi
+        self.kx0 = kx0
 
         self.iden = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).iden()
-        self.kx = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).Kx(kx=0)
-        self.kxsq = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).KxSq(kx=0)
-        self.kxcu = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).KxCu(kx=0)
+        self.kx = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).Kx(self.kx0)
+        self.kxsq = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).KxSq(self.kx0)
+        self.kxcu = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).KxCu(self.kx0)
 
         self.omega_minus = self.omega/2
         self.omega_plus = 3*self.omega/2
