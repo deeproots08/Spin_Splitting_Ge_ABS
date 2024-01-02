@@ -66,17 +66,18 @@ class oneD_Minimal_Model:
         self.epsilon = epsilon
         self.onedOP = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False)
 
-    def Energy_SHO_2D(self, ney=0, nez=0):
+    def Energy_SHO_2D(self, ney=0):
 
         """
         returns energy of ne th state for a SHO in meV
+        Lets not include the z confinement energy- consider that as the reference level
         
         Args:
             ne (int): Energy level whose energy is required, starts from 0 
         
         """
 
-        return self.omega*(ney+ nez+ 1)
+        return self.omega*(ney+ 0.5)
     
     def Ky_iden_pr(self,p,r):
 
