@@ -16,7 +16,7 @@ import Operators2D as Op
 
 class oneD_Minimal_Model:
 
-    def __init__(self, n, nsm, nsc, my, ax, omega, alphat, delta=0, meff_sc=1, meff_sm = 1 , mu_sc = 0, mu_sm=0, u0=0, uc=0, lambda1=1, lambda2=1, lambda3=1, lambda4=1, lambda5=1, px=False,  epsilon=1e-5):
+    def __init__(self, n, nsm, nsc, my, ax, omega, alphat, delta=0, meff_sc=1, meff_sm = 1 , mu_sc = 0, mu_sm=0, u0=0, uc=0, lambda1=1, lambda2=1, lambda3=1, lambda4=1, lambda5=1, px=False,  epsilon=0):
         
         """
         Initializes a new instance of the Operators_2d class.
@@ -365,7 +365,7 @@ class oneD_Minimal_Model:
 
             if i==j:
 
-                return hbm/self.meff_sm*self.onedOP.KxSq(kx) + self.Energy_SHO_2D(j)*self.onedOP.iden() - self.chem_pot() + self.barrier(on_both_junc)+ self.zeeman_artificial(i,j,s,sp,Ez)+ self.epsilon*self.onedOP.Kx_quar(kx)+self.centre_barrier()
+                return hbm/self.meff_sm*self.onedOP.KxSq(kx) + self.Energy_SHO_2D(j)*self.onedOP.iden() - self.chem_pot() + self.barrier(on_both_junc)+ self.zeeman_artificial(i,j,s,sp,Ez)+ self.epsilon*self.onedOP.Kx_quar(kx) + self.centre_barrier()
             
             else:
 
