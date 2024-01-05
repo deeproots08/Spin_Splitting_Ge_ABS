@@ -58,7 +58,7 @@ class Model:
 
         self.omega_minus = self.omega/2
         self.omega_plus = self.omega
-        self.kappa = math.sqrt(self.omega*self.meff/2/hbm)
+        self.kappa = math.sqrt(self.omega*self.meff/4/hbm)
         self.total = math.sqrt(self.omega_minus**2+(self.alphat*self.kappa)**2)
         self.cos = self.omega_minus/self.total
         self.sin = self.alphat*self.kappa/self.total
