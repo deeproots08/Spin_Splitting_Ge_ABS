@@ -49,7 +49,7 @@ class Model:
         self.mu = mu
         self.px = px
         self.phi = phi
-        self.kx0= kx0
+        self.kx0 = kx0
 
         self.iden = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).iden()
         self.kx = Op.Operators_2d(self.n, 1, self.ax, 1, self.px, False).Kx(self.kx0)
