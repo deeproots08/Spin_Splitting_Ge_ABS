@@ -115,7 +115,12 @@ class Model:
     
     def Mass_inversion_pt(self):
 
-        return math.sqrt(hbm/self.meff*2*self.omega_minus)/self.sin
+        print('valid only if alpha*kappa << Omega_minus')
+
+        print('alpha-kappa( in meV) = ', self.alphat*self.kappa)
+        print('omega_minus( in meV) = ', self.omega_minus)
+
+        return math.pow((hbm/self.meff*2*self.omega_minus**3/self.kappa**2),0.25)
 
 
             
