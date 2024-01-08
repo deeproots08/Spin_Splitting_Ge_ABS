@@ -107,7 +107,15 @@ class Model:
 
         return H
     
+    def Meff_eff(self):
 
+        meff_eff_inv = 1/self.meff - self.alphat**2*self.sin**2/2/self.total/hbm
+
+        return 1/meff_eff_inv
+    
+    def Mass_inversion_pt(self):
+
+        return math.sqrt(hbm/self.meff*2*self.omega_minus)/self.sin
 
 
             
