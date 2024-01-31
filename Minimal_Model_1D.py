@@ -77,7 +77,7 @@ class oneD_Minimal_Model:
         
         """
 
-        return self.omega*(ney+ 1)
+        return self.omega*(ney+ 0.5)
     
     def Ky_iden_pr(self,p,r):
 
