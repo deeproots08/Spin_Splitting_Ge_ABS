@@ -77,7 +77,7 @@ class oneD_Minimal_Model:
         
         """
 
-        return self.omega*(ney+ 0.5)
+        return self.omega*(ney+ 1)
     
     def Ky_iden_pr(self,p,r):
 
@@ -88,7 +88,7 @@ class oneD_Minimal_Model:
         else:
 
             return 0 
-
+        
     def Ky_pr(self, p, r):
 
         """
@@ -99,15 +99,15 @@ class oneD_Minimal_Model:
         
         """
 
-        N = cmath.sqrt(self.omega*self.meff_sm/4/hbm)
+        N = 1j*cmath.sqrt(self.omega*self.meff_sm/4/hbm)
 
         if p==r+1 :
 
-            return 1j*N*cmath.sqrt(r+1)
+            return N*cmath.sqrt(r+1)
         
         elif ( p==r-1 ) :
 
-            return -1j*N*cmath.sqrt(r)
+            return -N*cmath.sqrt(r)
         
         else :
 
@@ -124,23 +124,23 @@ class oneD_Minimal_Model:
         
         """
 
-        N = (cmath.sqrt(self.omega*self.meff_sm/4/hbm))**3
+        N = 1j*cmath.sqrt(self.omega*self.meff_sm/4/hbm)
 
         if p==r+1 : 
 
-            return -N*(3)*(r+1)*cmath.sqrt(r+1)
+            return -N**3*(3)*(r+1)*cmath.sqrt(r+1)
         
         elif ( p==r-1 ) :
 
-            return N*3*r*cmath.sqrt(r)
+            return N**3*3*r*cmath.sqrt(r)
         
         elif p == r+3 :
 
-            return N*cmath.sqrt((r+1)*(r+2)*(r+3))
+            return N**3*cmath.sqrt((r+1)*(r+2)*(r+3))
         
         elif p == r-3 :
 
-            return -N*cmath.sqrt((r)*(r-1)*(r-2))
+            return -N**3*cmath.sqrt((r)*(r-1)*(r-2))
         
         else :
             
@@ -156,19 +156,19 @@ class oneD_Minimal_Model:
         
         """
 
-        N = self.omega*self.meff_sm/4/hbm
+        N = 1j*cmath.sqrt(self.omega*self.meff_sm/4/hbm)
 
         if p == r+2 : 
 
-            return N*cmath.sqrt(r+1)*cmath.sqrt(r+2)
+            return N**2*cmath.sqrt(r+1)*cmath.sqrt(r+2)
         
         elif p == r-2 :
 
-            return N*cmath.sqrt((r)*(r-1))
+            return N**2*cmath.sqrt((r)*(r-1))
         
         elif p == r:
 
-            return -N*(2*r+1)
+            return -N**2*(2*r+1)
         
         else :
             
@@ -266,7 +266,7 @@ class oneD_Minimal_Model:
         else:
 
             return self.onedOP.zer()
-
+        
     def spin_orbit(self, i, j, s, so='cu', kx=0):
 
         """
@@ -289,7 +289,6 @@ class oneD_Minimal_Model:
             #print('cu')
 
             k_minus_cube = self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j)*self.lambda1 - 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j)*self.lambda2 - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)*self.lambda3 + 1j*self.Kycube_pr(i,j)*self.onedOP.iden()*self.lambda4
-
             k_plus_cube =  self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j)*self.lambda1 + 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j)*self.lambda2 - 3*self.onedOP.Kx(kx)*self.Kysq_pr(i,j)*self.lambda3 - 1j*self.Kycube_pr(i,j)*self.onedOP.iden()*self.lambda4
 
             k_minus_cube_l1 = self.onedOP.KxCu(kx)*self.Ky_iden_pr(i,j)*self.lambda1 - 1j*3*self.onedOP.KxSq(kx)*self.Ky_pr(i,j)*self.lambda2 - 3*self.onedOP.Kx(kx)*l1*self.lambda3 + 1j*self.Kycube_pr(i,j)*self.onedOP.iden()*self.lambda4
@@ -300,31 +299,31 @@ class oneD_Minimal_Model:
             
             if s==0:
 
-                #if i==0 and j==0:
+                if i==0 and j==0:
 
-                #    return -1j*self.alphat*k_minus_cube_l1
+                    return -1j*self.alphat*k_minus_cube_l1
                 
-                #elif i==1 and j==1:
+                elif i==1 and j==1:
 
-                #    return -1j*self.alphat*k_minus_cube_l2
+                    return -1j*self.alphat*k_minus_cube_l2
 
-                return -1j*self.alphat*k_minus_cube
+                else:
+                
+                    return -1j*self.alphat*k_minus_cube
             
             else:
 
-                #if i==0 and j==0:
+                if i==0 and j==0:
 
-                #    return 1j*self.alphat*k_plus_cube_l1
+                    return 1j*self.alphat*k_plus_cube_l1
                 
-                #elif i==1 and j==1:
+                elif i==1 and j==1:
 
-                #    return 1j*self.alphat*k_plus_cube_l2
+                    return 1j*self.alphat*k_plus_cube_l2
                 
-                #else:
+                else:
 
-                return 1j*self.alphat*k_plus_cube
-
-
+                    return 1j*self.alphat*k_plus_cube
 
         elif so == 'li':
             #print('li')
