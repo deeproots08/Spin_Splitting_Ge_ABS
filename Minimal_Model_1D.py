@@ -19,7 +19,7 @@ class oneD_Minimal_Model:
     def __init__(self, n, nsm, nsc, my, ax, omega, alphat, delta=0, meff_sc=1, meff_sm = 1 , mu_sc = 0, mu_sm=0, u0=0, uc=0, lambda1=1, lambda2=1, lambda3=1, lambda4=1, lambda5=1, px=False,  epsilon=0):
         
         """
-        Initializes a new instance of the Operators_2d class.
+        Initializes a new instance of the oneD_Minimal_Model class.
         
         Args:
             n (int): The number of horizontal lattice points of the system.
@@ -34,13 +34,16 @@ class oneD_Minimal_Model:
             mu_s (float): chemical potential of the superconducting region of SNS
             mu_sm (float): chemical potential of the semiconductingconducting region of SNS
             omega (float): energy in meV of the y harmonic confinement potential
-            lambda1 (float): 
-            lambda2 () :
+            lambda1 (float) : Analog switch to turn on/off contribution of kx^3 in csoc, and kx in lsoc.Default=1(on)
+            lambda2 (float) : Analog switch to turn on/off contribution of kx^2ky term in csoc, and ky term in lsoc.default=1(on)
+            lambda3 (float) : Analog switch to turn on/off contribution of kxky^2 term in csoc.Default=1(on)
+            lambda4 (float) : Analog switch to turn on/off contribution of ky^3 term in csoc.Default=1(on)
+            lambda5 (float) : Analog switch to make <0|kysq|0> = <1|kysq|1>. Default is <0|kysq|0> != <1|kysq|1> when lamda5 = 1. 
             px (bool, optional): Flag indicating periodicity in x direction. Defaults to False.
             epsilon (float): Kx^4 prefactor to remove higher k states from dipping
 
         Notes:
-            - The ordering of lattice points is from left to right, bottom to top, similar to x and y axis in 2D graph paper.
+            - The ordering of lattice points for kx, kxsq, kxcu(imported for operator class file) is from left to right, bottom to top, similar to x and y axis in 2D graph paper. 
         """
         
         self.n = n
@@ -105,7 +108,7 @@ class oneD_Minimal_Model:
 
             return N*cmath.sqrt(r+1)
         
-        elif ( p==r-1 ) :
+        elif p==r-1 :
 
             return -N*cmath.sqrt(r)
         
@@ -126,11 +129,11 @@ class oneD_Minimal_Model:
 
         N = 1j*cmath.sqrt(self.omega*self.meff_sm/4/hbm)
 
-        if p==r+1 : 
+        if p == r+1 : 
 
             return -N**3*(3)*(r+1)*cmath.sqrt(r+1)
         
-        elif ( p==r-1 ) :
+        elif p == r-1 :
 
             return N**3*3*r*cmath.sqrt(r)
         

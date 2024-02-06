@@ -17,10 +17,13 @@ import Operators2D as Op
 
 class Model:
 
+    ###THIS IS CODE FOR EFFECTIVE  ONE SUBBAND MODEL FOR LINEAR SPIN ORBIT COUPLING(LSOC) ###
+    ###EFFECTIVE ONE SUBBAND MODEL FOR CUBIC SPIN ORBIT COUPLING(CSOC) IS NOT REQUIRED AS MINIMAL MODEL 1D EXPLPAINS THAT WELL. THIS IS BECAUSE INTRA SUBBAND EFFECTES ARE NOT IMPORTANT FOR CUBIC CASE ###
+
     def __init__(self, n, nsm, nsc, ax, omega, alphat, delta=0, meff=1, mu = 0, px=False, phi=0, kx0=0):
 
         """
-        Initializes a new instance of the Operators_2d class.
+        Initializes a new instance of the Model class.
         
         Args:
             n (int): The number of horizontal lattice points of the system.
