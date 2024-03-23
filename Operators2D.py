@@ -1007,7 +1007,7 @@ class Operators_2d:
         Returns Hamiltonian for cubic Rashba spin orbit coupling for given m,n lattice 
         for given spin orbit coupling coeff alpha and for given Electric field E
         Note that H_cubic_so function only returns <+|H_cubic_Rashba|-> component , 
-        The <-|H_cubic_Rashba|+> can be found by taking complex conjugate 
+        The <-|H_cubic_Rashba|+> can be found by taking complex conjugate and transpose 
         alpha is in mev nm**(3)
         '''
 
