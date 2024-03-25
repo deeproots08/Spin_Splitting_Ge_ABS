@@ -1031,7 +1031,7 @@ class Operators_2d:
         
         '''
         Method returns the Basis change operator U dag  for y direction. 
-        U dag operator changes basis from lattice to subband when used as U dag (Matrix in xy lattice basis) U
+        U dag operator changes basis from lattice to subband of quantum well when used as U dag (Matrix in xy lattice basis) U
         U dag (Matrix in xy lattice basis) U gives Matrix in x anad y subband basis
 
         Args:
