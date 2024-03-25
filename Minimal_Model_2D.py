@@ -80,7 +80,7 @@ class twoD_Minimal_Model:
                 col = np.append(col, j*self.n + i)
                 data = np.append(data, ((j+1)*self.ay-shift)**2)
 
-        M = csr_matrix((data,(row,col)),shape=(self.m*self.n, self.m*self.n)).toarray()
+        M = csr_matrix((data,(row,col)),shape=(self.m*self.n, self.m*self.n))
 
         return M
 
@@ -102,7 +102,7 @@ class twoD_Minimal_Model:
 
         return M
 
-    def dis_pot_matrix(self):
+    def dis_pot_matrix(self, dis_mag=0):
 
         """
         Generate a sparse diagonal matrix of size mnXmn 
@@ -113,20 +113,25 @@ class twoD_Minimal_Model:
         dis_pot_matrix (csr_matrix): Sparse diagonal matrix mnXmn
 
         """
-        final_array = np.array([])
+        final_array = []
 
         for _ in range(self.m):
-
             # Generate random values for the non-zero entries
             values = [random.gauss(self.dis_mean, self.dis_var) for _ in range(self.nsm)]
             values = np.array(values)
-            
+
             # Create the 1D array for this iteration
             array = np.concatenate((np.zeros(self.nsc), values, np.zeros(self.nsc)))
-            
-            # Concatenate the array to the final array
-            final_array = np.concatenate((final_array, array))
-        
+
+            # Append the array to the final array
+            final_array = np.append(final_array, array)
+
+        # Convert final_array to a NumPy array
+        final_array = np.array(final_array, dtype=float)
+
+        # Multiply by magnitude
+        final_array *= dis_mag
+
         # Create a sparse diagonal matrix from the final array
         dis_pot_matrix = diags(final_array, 0, format='csr')
 
@@ -171,11 +176,11 @@ class twoD_Minimal_Model:
 
             return self.twodOP.zer()
 
-    def H_same_spin(self, kx=0, ky=0):
+    def H_same_spin(self, dis_mag=0, kx=0, ky=0):
 
-        return hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/2*me*self.meff_sm*self.omega**2*self.ysq_matrix() + self.dis_pot_matrix()
+        return hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/2*me*self.meff_sm*self.omega**2*self.ysq_matrix() + self.dis_pot_matrix(dis_mag)
  
-    def H_s_sp(self, s, sp, so='cu', kx=0, ky=0):
+    def H_s_sp(self, s, sp, so='cu', dis_mag=0, kx=0, ky=0):
 
         """
         returns  <s|H|sp>
@@ -188,13 +193,13 @@ class twoD_Minimal_Model:
 
         if s==sp:
 
-            return self.H_same_spin( kx, ky)
+            return self.H_same_spin(dis_mag, kx, ky)
         
         else:
 
             return self.spin_orbit(s, so, kx, ky)
 
-    def H_particle(self, so = 'cu', kx=0, ky=0):
+    def H_particle(self, so = 'cu', dis_mag=0, kx=0, ky=0):
 
         """
         returns  Particle space Hamiltonian
@@ -209,7 +214,7 @@ class twoD_Minimal_Model:
 
             for sp in range(2):
 
-                H = hstack( ( H, self.H_s_sp(s, sp, so, kx, ky) ) )
+                H = hstack( ( H, self.H_s_sp(s, sp, so, dis_mag, kx, ky) ) )
 
             V = vstack((V,H))
 
@@ -277,13 +282,13 @@ class twoD_Minimal_Model:
 
         return V
     
-    def H_sys(self,phi=0, so = 'cu', kx=0, ky=0):
+    def H_sys(self,phi=0, so = 'cu', dis_mag=0, kx=0, ky=0):
 
         ### -kx, -ky of hoel space matrix only matters in case of periodic 
 
         M = bmat([
-           [self.H_particle( so, kx, ky), self.Delta_mat(phi)],
-           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, -kx, -ky).conjugate()]
+           [self.H_particle( so, dis_mag, kx, ky), self.Delta_mat(phi)],
+           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, dis_mag, -kx, -ky).conjugate()]
        ]) 
 
         return M
