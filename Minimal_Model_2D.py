@@ -173,7 +173,7 @@ class twoD_Minimal_Model:
 
     def H_same_spin(self, kx=0, ky=0):
 
-        return hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/2*me*self.meff_sm*self.omega**2*self.ysq_matrix()
+        return hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/2*me*self.meff_sm*self.omega**2*self.ysq_matrix() + self.dis_pot_matrix()
  
     def H_s_sp(self, s, sp, so='cu', kx=0, ky=0):
 
@@ -279,9 +279,11 @@ class twoD_Minimal_Model:
     
     def H_sys(self,phi=0, so = 'cu', kx=0, ky=0):
 
+        ### -kx, -ky of hoel space matrix only matters in case of periodic 
+
         M = bmat([
            [self.H_particle( so, kx, ky), self.Delta_mat(phi)],
-           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, kx, ky).conjugate()]
+           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, -kx, -ky).conjugate()]
        ]) 
 
         return M
