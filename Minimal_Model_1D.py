@@ -473,9 +473,11 @@ class oneD_Minimal_Model:
 
     def H_sys(self,phi=0,Ez=0, so = 'cu', on_both_junc= False,kx=0):
 
+        ### - kx matters only in case of periodic 
+
         M = bmat([
            [self.HN(Ez, so,on_both_junc,kx), self.Delta_mat(phi)],
-           [-self.Delta_mat(phi).conjugate(), -self.HN(Ez,so,on_both_junc,kx).conjugate()]
+           [-self.Delta_mat(phi).conjugate(), -self.HN(Ez,so,on_both_junc,-kx).conjugate()]
        ]) 
 
         return M
