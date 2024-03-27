@@ -4,4 +4,4 @@ Following files are important and contain the models
 1. Operators2D.py
 2. Minimal_model_1D.py
 3. Minimal_model_1D_1sub.py
-4. Minimal_model_2D.py
+4. Minimal_model_2D.py(has disorder included in it)
