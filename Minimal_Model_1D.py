@@ -1,8 +1,4 @@
-import cmath
-import numpy as np
-from scipy.sparse import csr_matrix, coo_matrix,  bmat, diags, identity, issparse, vstack, hstack
-from scipy.sparse.linalg import eigsh,eigs
-
+from config import *
 
 ###defining constants##
 
