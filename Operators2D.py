@@ -1034,3 +1034,23 @@ class Operators_2d:
         M = coo_matrix((data, (row, col)), shape=(ny * self.n, self.m * self.n))
         
         return M
+
+    def ysq(self):
+
+            row = np.empty(0)
+            col = np.empty(0)
+            data = np.empty(0)
+
+            shift = (((self.m/2)+1)*self.ay)
+
+            for j in range(self.m):
+
+                for i in range(self.n):
+                
+                    row = np.append(row, j*self.n + i)
+                    col = np.append(col, j*self.n + i)
+                    data = np.append(data, ((j+1)*self.ay-shift)**2)
+
+            M = csr_matrix((data,(row,col)),shape=(self.m*self.n, self.m*self.n))
+
+            return M
