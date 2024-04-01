@@ -163,7 +163,7 @@ class twoD_Minimal_Model:
 
     def H_same_spin(self, dis_mag=0, kx=0, ky=0):
 
-        return hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/2*me*self.meff_sm*self.omega**2*self.ysq_matrix() + self.dis_pot_matrix(dis_mag)
+        return hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() + self.dis_pot_matrix(dis_mag)
  
     def H_s_sp(self, s, sp, so='cu', dis_mag=0, kx=0, ky=0):
 
