@@ -122,6 +122,27 @@ class twoD_Minimal_Model:
 
         return dis_pot_matrix
 
+    def disorder(self, uncorr_var, lmbda=0):
+
+        """
+        returns  mnXmn soarse matrix with diagonal terms giving disorder potential
+
+        The disorder on each site is sampled from a normal distribution with variance uncorr_var and mean zero 
+
+        this def assumes disorder is through out the josephson junction including superconductors unlike dis_pot_mat def
+        
+        Args: 
+            uncorr_var (float): variance of the standard normal distribution from which disorder is sampled
+            lmbda (float): to modify the magnitude of disorder  
+        
+        """
+
+        gaussian_array = lmbda* np.random.normal(loc=0, scale=math.sqrt(uncorr_var), size=self.m*self.n)
+
+        dis_array = diags(gaussian_array)
+
+        return dis_array
+
     def spin_orbit(self, s, so='cu', kx=0, ky=0):
 
         """
@@ -161,9 +182,9 @@ class twoD_Minimal_Model:
 
             return self.twodOP.zer()
 
-    def H_same_spin(self, dis_mag=0, kx=0, ky=0):
+    def H_same_spin(self, dis_mag=0, uncorr_var=1, lmbda=0, kx=0, ky=0):
 
-        return hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() + self.dis_pot_matrix(dis_mag)
+        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.dis_pot_matrix(dis_mag) +self.disorder(uncorr_var, lmbda))
  
     def H_s_sp(self, s, sp, so='cu', dis_mag=0, kx=0, ky=0):
 
