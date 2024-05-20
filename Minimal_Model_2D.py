@@ -122,10 +122,10 @@ class twoD_Minimal_Model:
 
         return dis_pot_matrix
 
-    def disorder(self, uncorr_var, lmbda=0):
+    def Disorder_full(self, uncorr_var, lmbda=0):
 
         """
-        returns  mnXmn soarse matrix with diagonal terms giving disorder potential
+        returns  mnXmn sparse matrix with diagonal terms giving disorder potential
 
         The disorder on each site is sampled from a normal distribution with variance uncorr_var and mean zero 
 
@@ -182,9 +182,10 @@ class twoD_Minimal_Model:
 
             return self.twodOP.zer()
 
+
     def H_same_spin(self, dis_mag=0, uncorr_var=1, lmbda=0, kx=0, ky=0):
 
-        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.dis_pot_matrix(dis_mag) +self.disorder(uncorr_var, lmbda))
+        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.dis_pot_matrix(dis_mag) +self.Disorder_full(uncorr_var, lmbda))
  
     def H_s_sp(self, s, sp, so='cu', dis_mag=0, kx=0, ky=0):
 
