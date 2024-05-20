@@ -182,7 +182,6 @@ class twoD_Minimal_Model:
 
             return self.twodOP.zer()
 
-
     def H_same_spin(self, dis_mag=0, uncorr_var=1, lmbda=0, kx=0, ky=0):
 
         return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.dis_pot_matrix(dis_mag) +self.Disorder_full(uncorr_var, lmbda))
