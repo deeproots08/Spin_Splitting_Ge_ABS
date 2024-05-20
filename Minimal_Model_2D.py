@@ -122,10 +122,10 @@ class twoD_Minimal_Model:
 
         return dis_pot_matrix
 
-    def disorder(self, uncorr_var, lmbda=0):
+    def Disorder_full(self, uncorr_var, lmbda=0):
 
         """
-        returns  mnXmn soarse matrix with diagonal terms giving disorder potential
+        returns  mnXmn sparse matrix with diagonal terms giving disorder potential
 
         The disorder on each site is sampled from a normal distribution with variance uncorr_var and mean zero 
 
@@ -184,9 +184,9 @@ class twoD_Minimal_Model:
 
     def H_same_spin(self, dis_mag=0, uncorr_var=1, lmbda=0, kx=0, ky=0):
 
-        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.dis_pot_matrix(dis_mag) +self.disorder(uncorr_var, lmbda))
+        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.dis_pot_matrix(dis_mag) +self.Disorder_full(uncorr_var, lmbda))
  
-    def H_s_sp(self, s, sp, so='cu', dis_mag=0, kx=0, ky=0):
+    def H_s_sp(self, s, sp, so='cu', dis_mag=0, uncorr_var=1, lmbda=0, kx=0, ky=0):
 
         """
         returns  <s|H|sp>
@@ -199,13 +199,13 @@ class twoD_Minimal_Model:
 
         if s==sp:
 
-            return self.H_same_spin(dis_mag, kx, ky)
+            return self.H_same_spin(dis_mag,uncorr_var, lmbda, kx, ky)
         
         else:
 
             return self.spin_orbit(s, so, kx, ky)
 
-    def H_particle(self, so = 'cu', dis_mag=0, kx=0, ky=0):
+    def H_particle(self, so = 'cu', dis_mag=0, uncorr_var=1, lmbda=0, kx=0, ky=0):
 
         """
         returns  Particle space Hamiltonian
@@ -220,7 +220,7 @@ class twoD_Minimal_Model:
 
             for sp in range(2):
 
-                H = hstack( ( H, self.H_s_sp(s, sp, so, dis_mag, kx, ky) ) )
+                H = hstack( ( H, self.H_s_sp(s, sp, so, dis_mag, uncorr_var, lmbda, kx, ky) ) )
 
             V = vstack((V,H))
 
@@ -288,13 +288,13 @@ class twoD_Minimal_Model:
 
         return V
     
-    def H_sys(self,phi=0, so = 'cu', dis_mag=0, kx=0, ky=0):
+    def H_sys(self,phi=0, so = 'cu', dis_mag=0, uncorr_var=1, lmbda=0, kx=0, ky=0):
 
         ### -kx, -ky of hoel space matrix only matters in case of periodic 
 
         M = bmat([
-           [self.H_particle( so, dis_mag, kx, ky), self.Delta_mat(phi)],
-           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, dis_mag, -kx, -ky).conjugate()]
+           [self.H_particle( so, dis_mag, uncorr_var, lmbda, kx, ky), self.Delta_mat(phi)],
+           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, dis_mag, uncorr_var, lmbda, -kx, -ky).conjugate()]
        ]) 
 
         return M
