@@ -28,7 +28,8 @@ MU_SM =  0.8 + OMEGA/2   #in between two subbands
 
 UNCORR_VAR = 1  ### uncorrelated variance of disorder
 
-
+LMBDA = 1E-3  ## scaling of disorder
+ 
 ### Sample 100 times for each value of uncorr_Var
 
 SAMPLE_NUM = 3
@@ -37,12 +38,12 @@ Ep_Split_cu = np.empty((SAMPLE_NUM,1))
 
 for i in range(SAMPLE_NUM):
 
-    print(time.time())
+    #print(time.time())
 
     Fcu = mm2D.twoD_Minimal_Model(NTOT, NSM, NSC, M, AX, AY, OMEGA, ALPHAT, DELTA, MEFF_SC, MEFF_SM, MU_SC, MU_SM)
                 
     #Hcu = Fcu.H_sys(PHI, so = 'cu', uncorr_var=1, lmbda=1)
-    Hcu = Fcu.H_sys(PHI, so = 'cu', uncorr_var=1, lmbda=0)
+    Hcu = Fcu.H_sys(PHI, so = 'cu', uncorr_var=1, lmbda=LMBDA)
 
     Ecu = eigsh(Hcu ,k=K_NUM ,sigma=0, return_eigenvectors=False)
 
@@ -50,7 +51,9 @@ for i in range(SAMPLE_NUM):
 
     Ep_Split_cu[i,0] = (Ecu[K_NUM//2+1] - Ecu[K_NUM//2])/DELTA
 
-    print(time.time())
+    #print(time.time())
+
+    print("sample no. {}".format(i))
 
 
 # Calculating mean
@@ -59,7 +62,25 @@ splitting_mean_value = Ep_Split_cu.mean()
 # Calculating variance
 splitting_variance_value = Ep_Split_cu.var()
 
+print("uncorrvar: {}".format(UNCORR_VAR))
+
+print("lmbda: {}".format(LMBDA))
+
 print("Mean:", splitting_mean_value)
 print("Variance:", splitting_variance_value)
 
-print(Ep_Split_cu)
+print("spin splitting array for cubic: {}".format(Ep_Split_cu))
+
+
+Fcu = mm2D.twoD_Minimal_Model(NTOT, NSM, NSC, M, AX, AY, OMEGA, ALPHAT, DELTA, MEFF_SC, MEFF_SM, MU_SC, MU_SM)
+            
+#Hcu = Fcu.H_sys(PHI, so = 'cu', uncorr_var=1, lmbda=1)
+Hcu = Fcu.H_sys(PHI, so = 'cu', uncorr_var=1, lmbda=0)
+
+Ecu = eigsh(Hcu ,k=K_NUM ,sigma=0, return_eigenvectors=False)
+
+Ecu = np.sort(Ecu)
+
+Ep_Split_cu_nd = (Ecu[K_NUM//2+1] - Ecu[K_NUM//2])/DELTA
+
+print("spin splitting array for cubic w/o disorder: {}".format(Ep_Split_cu_nd))

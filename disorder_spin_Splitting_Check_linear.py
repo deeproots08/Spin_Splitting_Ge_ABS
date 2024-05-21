@@ -37,12 +37,12 @@ Ep_Split_li = np.empty((SAMPLE_NUM,1))
 
 for i in range(SAMPLE_NUM):
 
-    print(time.time())
+    #print(time.time())
 
     Fli = mm2D.twoD_Minimal_Model(NTOT, NSM, NSC, M, AX, AY, OMEGA, ALPHAT, DELTA, MEFF_SC, MEFF_SM, MU_SC, MU_SM)
                 
-    #Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=1)
-    Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=0)
+    Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=1e-5)
+    #Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=0)
 
     Eli = eigsh(Hli ,k=K_NUM ,sigma=0, return_eigenvectors=False)
 
@@ -50,7 +50,7 @@ for i in range(SAMPLE_NUM):
 
     Ep_Split_li[i,0] = (Eli[K_NUM//2+1] - Eli[K_NUM//2])/DELTA
 
-    print(time.time())
+    print("sample no. {}".format(i))
 
 
 # Calculating mean
@@ -59,7 +59,27 @@ splitting_mean_value = Ep_Split_li.mean()
 # Calculating variance
 splitting_variance_value = Ep_Split_li.var()
 
+print("uncoor var mag: {}".format(UNCORR_VAR))
+
 print("Mean:", splitting_mean_value)
 print("Variance:", splitting_variance_value)
 
-print(Ep_Split_li)
+print("sPIN SPLITTING ARRAY FOR linear {} ".format(Ep_Split_li))
+
+
+#print(time.time())
+
+Fli = mm2D.twoD_Minimal_Model(NTOT, NSM, NSC, M, AX, AY, OMEGA, ALPHAT, DELTA, MEFF_SC, MEFF_SM, MU_SC, MU_SM)
+            
+#Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=1)
+Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=0)
+
+Eli = eigsh(Hli ,k=K_NUM ,sigma=0, return_eigenvectors=False)
+
+Eli = np.sort(Eli)
+
+Ep_Split_li_nd = (Eli[K_NUM//2+1] - Eli[K_NUM//2])/DELTA
+
+#print(time.time())
+
+print('SPIN SPLITTING WITHOUT DISORDER:', Ep_Split_li_nd)
