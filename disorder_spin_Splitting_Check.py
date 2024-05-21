@@ -2,6 +2,7 @@ from config import *
 #import Minimal_Model_1D as mm1D
 import Minimal_Model_2D as mm2D
 #import Operators2D as Op
+import time
 
 ### checking spin splitting for different magnitudes of disorder LSOC###
 
@@ -36,15 +37,20 @@ Ep_Split_li = np.empty((SAMPLE_NUM,1))
 
 for i in range(SAMPLE_NUM):
 
+    print(time.time())
+
     Fli = mm2D.twoD_Minimal_Model(NTOT, NSM, NSC, M, AX, AY, OMEGA, ALPHAT, DELTA, MEFF_SC, MEFF_SM, MU_SC, MU_SM)
                 
-    Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=1)
+    #Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=1)
+    Hli = Fli.H_sys(PHI, so = 'li', uncorr_var=1, lmbda=0)
 
     Eli = eigsh(Hli ,k=K_NUM ,sigma=0, return_eigenvectors=False)
 
     Eli = np.sort(Eli)
 
     Ep_Split_li[i,0] = (Eli[K_NUM//2+1] - Eli[K_NUM//2])/DELTA
+
+    print(time.time())
 
 
 # Calculating mean
