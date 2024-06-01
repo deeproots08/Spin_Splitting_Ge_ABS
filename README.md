@@ -17,3 +17,6 @@ Ignore the below file. Refer to chtc_Spin_Splitting_Ge_ABS repo fro correct vers
 7. spin_splitting_map_cubic.py
 8. spin_splitting_map_linear.py
 
+venv is the virtual enviroment
+Requiements.txt lists all necessary libraries except the libraries required to run jupyter notebooks in VS code.
+If you need to rum Jupyter notebooks, install the relevant packages for that too
