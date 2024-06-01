@@ -1,23 +1,54 @@
+# Main Packages
+asttokens==2.4.1
+colorama==0.4.6
+comm==0.2.2
 contourpy==1.2.1
 cycler==0.12.1
+debugpy==1.8.1
+decorator==5.1.1
 emcee==3.1.6
+executing==2.0.1
 fonttools==4.52.4
 gstools==1.5.2
 hankel==1.2.2
 kiwisolver==1.4.5
 markdown-it-py==3.0.0
 matplotlib==3.9.0
+matplotlib-inline==0.1.7
 mdurl==0.1.2
 meshio==5.3.5
 mpmath==1.3.0
+nest-asyncio==1.6.0
 numpy==1.26.4
 packaging==24.0
+parso==0.8.4
 pillow==10.3.0
 pip==24.0
+platformdirs==4.2.2
+prompt_toolkit==3.0.45
+psutil==5.9.8
+pure-eval==0.2.2
 pyevtk==1.6.0
 Pygments==2.18.0
 pyparsing==3.1.2
 python-dateutil==2.9.0.post0
+pywin32==306
+pyzmq==26.0.3
 rich==13.7.1
 scipy==1.13.1
 six==1.16.0
+stack-data==0.6.3
+tornado==6.4
+traitlets==5.14.3
+wcwidth==0.2.13
+
+# Joblib Package
+# Not necessary
+joblib==1.4.2  # Efficient pipelining using Python functions
+
+# Jupyter Packages
+# For running jupyter notebooks
+ipykernel==6.29.4  # Kernel for Jupyter
+ipython==8.24.0  # Interactive Python for Jupyter
+jupyter_client==8.6.2  # Jupyter protocol client utilities
+jupyter_core==5.7.2  # Core common functionality of Jupyter projects
