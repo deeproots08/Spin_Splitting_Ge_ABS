@@ -298,3 +298,68 @@ class twoD_Minimal_Model:
        ]) 
 
         return M
+    
+    def Correlation_2D(self, A, i, ip, j, jp, dl=1):
+
+        """
+            Returns correlation function between point labelled by i, j on a n X m lattice
+            
+            Args:
+                A (float) : normalizing ocnstant for correlation function
+                i, j (int) : index of two poins between which correlation function needs to be calculated
+                dl (float) : decay length of correlation function 
+            
+        """
+
+        #x_dis = ((i%n) - (j%n))*ax   ## x distance between two points on lattice with index i,j labelled in graph way 
+
+        #y_dis = ((i//n) - (j//n))*ay   ## y distance between two points on lattice with index i,j labelled in graph way 
+
+        x_dis = (i -ip)*self.ax   ## x distance between two points on lattice with index i,j labelled in graph way 
+
+        y_dis = (j -jp)*self.ay   ## y distance between two points on lattice with index i,j labelled in graph way 
+
+        dis_sq = x_dis**2 + y_dis**2
+
+        lmbda_sq = dl**2
+
+        return A**2 * np.exp(-dis_sq/lmbda_sq)
+    
+    def variance_of_equivalent_uncorrelated_disorder(self, WV, A, dl=1):
+        
+        """
+        Calculate the equivalent variance of uncorrelated disorder.
+        
+        Args:
+            WV (np.ndarray): Wavefunction array of shape (n*m, 1).
+            A (float): Normalizing constant for the correlation function.
+            dl (float): Decay length of the correlation function.
+        
+        Returns:
+            float: Variance of equivalent uncorrelated disorder.
+        """
+        WVb = WV.reshape((4, self.m, self.n))
+        WVb_squared = np.abs(WVb)**2
+        
+        # Calculate WVb_outer using np.einsum
+        WVb_outer = np.einsum('kij,lmn->kijlmn', WVb_squared, WVb_squared)
+        print(WVb_outer.shape)
+
+        # Generate the indices and calculate the correlation function
+        j, i, jp, ip = np.meshgrid(np.arange(self.m), np.arange(self.n), np.arange(self.m), np.arange(self.n), indexing='ij')
+        corr_function = self.Correlation_2D(A, i, ip, j, jp, dl)
+        print(corr_function.shape)
+
+        # Multiply WVb_outer to correlation function
+        resulting_matrix = np.einsum('kijlmn, ijmn -> kl', WVb_outer, corr_function)
+
+        #calculate the sum
+        var_corr = np.sum(resulting_matrix)*self.ax**2*self.ay**2
+        
+        # Calculate the sum of squared terms separately for normalization
+        norm_factor = np.sum(np.einsum('kij,lij->kl', WVb_squared, WVb_squared))*self.ax*self.ay
+
+        # Compute the equivalent uncorrelated disorder variance
+        eqv_uncorr =  var_corr / norm_factor
+
+        return eqv_uncorr, var_corr, norm_factor
