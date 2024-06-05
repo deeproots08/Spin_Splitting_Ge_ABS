@@ -26,9 +26,9 @@ OMEGA = 2*4*hbm/LY**2/MEFF_SC
 MU_SC =  0.8 + OMEGA/2   #in between two subbands
 MU_SM =  0.8 + OMEGA/2   #in between two subbands
 
-UNCORR_VAR = 1  ### uncorrelated variance of disorder
+UNCORR_VAR = math.sqrt(1118)  ### uncorrelated variance of disorder
 
-LMBDA = 1E-3  ## scaling of disorder
+LMBDA = 1e-5  ## scaling of disorder
  
 ### Sample 100 times for each value of uncorr_Var
 
