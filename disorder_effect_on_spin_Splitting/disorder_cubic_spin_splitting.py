@@ -22,7 +22,7 @@ import time
 ### checking spin splitting for different magnitudes of disorder LSOC###
 
 NSM = 60          # number
-M = 20             # 
+M = 60             # # Note: M*Ay should atleast be 3 times LY
 AX = 5             # lattice spacing in nm
 AY = 5             # lattice spacing in nm
 DELTA = 0.165      # in meV
@@ -53,9 +53,18 @@ Fcu_ref = mm2D.twoD_Minimal_Model(NTOT, NSM, NSC, M, AX, AY, OMEGA, ALPHAT_REF, 
 Hcu = Fcu_ref.H_sys(PHI, so = 'cu')
 Ecu, V = eigsh(Hcu ,k=K_NUM ,sigma=0, return_eigenvectors=True)
 
-print(Ecu, V.shape)
+# Get the indices that would sort Ecu
+sorted_indices = np.argsort(Ecu)
 
-WV_ref = V[:, K_NUM//2]
+# Sort Ecu using the sorted indices
+sorted_Ecu = Ecu[sorted_indices]
+
+# Sort the columns of V according to the sorted indices
+sorted_V = V[:, sorted_indices]
+
+print(sorted_Ecu, sorted_V.shape)
+
+WV_ref = sorted_V[:, K_NUM//2]
 
 print(np.sum(np.abs(WV_ref)**2))
 
