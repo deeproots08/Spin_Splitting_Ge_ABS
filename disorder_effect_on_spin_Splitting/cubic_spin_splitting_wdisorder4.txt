@@ -1,0 +1,11 @@
+sample no. 0
+sample no. 1
+sample no. 2
+uncorrvar: 1167
+lmbda: 1
+Mean: 0.1903100145176798
+Variance: 0.04223765905828759
+spin splitting array for cubic: [[0.05160655]
+ [0.03846613]
+ [0.48085736]]
+for spin splitting array w/o disorder refer to end line of of file cubic_spin_splitting_wdisorder.txt
