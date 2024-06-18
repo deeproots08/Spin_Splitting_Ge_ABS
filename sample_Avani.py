@@ -50,6 +50,8 @@ s = random.randint(0, 1000000)
 noise_surface_model = gs.SRF(model, seed=s)
 noise_surface = noise_surface_model.structured([xs, ys])
 
+print(noise_surface.shape)
+
 # plot the noise surface
 fig, ax = plt.subplots()
 ax.imshow(noise_surface)
