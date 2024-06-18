@@ -35,7 +35,9 @@ MU_SM =  0.8 + OMEGA/2   #in between two subbands
 
 UNCORR_VAR = 1167  ### uncorrelated variance of disorder
 
-LMBDA = 1E-1  ## scaling of disorder
+LMBDA = 1E-3  ## scaling of disorder
+
+#SEED = 42  ## seed for the disorder
  
 ### Sample 100 times for each value of uncorr_Var
 
@@ -50,7 +52,7 @@ for i in range(SAMPLE_NUM):
     Fcu = mm2D.twoD_Minimal_Model(NTOT, NSM, NSC, M, AX, AY, OMEGA, ALPHAT, DELTA, MEFF_SC, MEFF_SM, MU_SC, MU_SM)
                 
     #Hcu = Fcu.H_sys(PHI, so = 'cu', uncorr_var=1, lmbda=1)
-    Hcu = Fcu.H_sys(PHI, so = 'cu', uncorr_var=1, lmbda=LMBDA)
+    Hcu = Fcu.H_sys(PHI, so = 'cu', uncorr_var=UNCORR_VAR, lmbda=LMBDA)
 
     Ecu = eigsh(Hcu ,k=K_NUM ,sigma=0, return_eigenvectors=False)
 
