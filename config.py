@@ -1,6 +1,7 @@
 import math
 import cmath
 import numpy as np
+from numpy.polynomial.hermite import Hermite
 from scipy.sparse import csr_matrix, coo_matrix,  bmat, diags, identity, issparse, vstack, hstack
 from scipy.sparse.linalg import eigsh,eigs
 import matplotlib.pyplot as plt
