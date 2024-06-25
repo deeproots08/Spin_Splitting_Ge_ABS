@@ -30,8 +30,12 @@ LY = 100           # Width in nm
 OMEGA = 2*4*hbm/LY**2/MEFF_SC
 
 
+print(OMEGA)
+
 MU_SC =  0.8 + OMEGA/2   # in between two subbands
 MU_SM =  0.8 + OMEGA/2   # in between two subbands
+
+print(MU_SM)
 
 UNCORR_VAR = 1167  ### uncorrelated variance of disorder
 
