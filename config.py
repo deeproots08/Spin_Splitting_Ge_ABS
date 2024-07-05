@@ -16,7 +16,7 @@ import random
 #from tempfile import TemporaryFile
 
 #np.set_printoptions(linewidth = 500)
-#np.set_printoptions(threshold=sys.maxsize)
+np.set_printoptions(threshold=sys.maxsize)
 
 
 ###defining constants##
