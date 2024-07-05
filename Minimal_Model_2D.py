@@ -55,7 +55,7 @@ class twoD_Minimal_Model:
         col = np.empty(0)
         data = np.empty(0)
 
-        shift = (((self.m/2)+1)*self.ay)
+        shift = (((self.m//2))*self.ay)
 
         for j in range(self.m):
 
@@ -367,3 +367,66 @@ class twoD_Minimal_Model:
         eqv_uncorr =  var_corr / norm_factor
 
         return eqv_uncorr, var_corr, norm_factor
+
+    def SHO_wvfn(self, ne, yj=0):
+
+        """
+        Return Phi__ne(yj) where yj is the jth index and ne is the quantum number of SHO wavefunction and the whole array
+        """
+
+        # define constant of SHo wavefunctions 
+
+        kappa = self.omega/hbm*self.meff_sm
+        normalization_const = 1/math.sqrt(2**ne * math.factorial(ne))*(kappa/2/math.pi)**(0.25)
+
+        # Create the Hermite polynomial 
+        coefficients = np.zeros(ne+1)
+        coefficients[ne] = 1  # Setting the leading coefficient as per the physicist's definition
+        
+        H_n = Hermite(coefficients)
+
+        shift = (((self.m//2))*self.ay) ### same shift from as the ysq_matrix 
+
+        #print('SHIFT Y_array: ', shift )
+
+        indices = np.arange(self.m)
+
+        y_array = (indices ) * self.ay  - shift
+
+        y_array_n = math.sqrt(kappa/2)*y_array
+
+        Herm_array = H_n(y_array_n)
+
+        #return normalization_const*np.exp(-kappa/4*y_array**2)*Herm_array, y_array
+
+        wvfn = normalization_const*np.exp(-kappa/4*y_array**2)*Herm_array
+        return wvfn[yj], wvfn      
+
+    def U_dag(self, my):
+
+        """
+
+        Returns sparse matrix of shape(my n X mn)
+
+        Args:
+            my: No. of y subbands 
+
+        """
+        row = np.empty(0)
+        col = np.empty(0)
+        data = np.empty(0)
+
+        for i in range(self.n):
+
+            for j in range(my):
+
+                for k in range(self.m):
+
+                    row = np.append(row, j*self.n + i)    
+                    col = np.append(col, k*self.n + i)
+                    d, p = self.SHO_wvfn(ne= j, yj=k)
+                    data = np.append(data, d )
+
+        M = csr_matrix((data,(row,col)),shape=(my*self.n, self.m*self.n))
+
+        return M

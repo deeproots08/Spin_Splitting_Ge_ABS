@@ -1041,7 +1041,7 @@ class Operators_2d:
             col = np.empty(0)
             data = np.empty(0)
 
-            shift = (((self.m/2)+1)*self.ay)
+            shift = (((self.m//2))*self.ay)
 
             for j in range(self.m):
 
