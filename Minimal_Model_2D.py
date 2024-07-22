@@ -48,6 +48,7 @@ class twoD_Minimal_Model:
         self.py = py
         self.epsilon = epsilon
         self.twodOP = Op.Operators_2d(self.n, self.m, self.ax, self.ay, self.px, self.py)
+        self.onedOP =  Op.Operators_2d(1, self.m, 1, self.ay, self.px, self.py)
 
     def ysq_matrix(self):
 
@@ -63,7 +64,7 @@ class twoD_Minimal_Model:
             
                 row = np.append(row, j*self.n + i)
                 col = np.append(col, j*self.n + i)
-                data = np.append(data, ((j+1)*self.ay-shift)**2)
+                data = np.append(data, ((j)*self.ay-shift)**2)
 
         M = csr_matrix((data,(row,col)),shape=(self.m*self.n, self.m*self.n))
 
@@ -147,6 +148,74 @@ class twoD_Minimal_Model:
 
         return dis_array
 
+    def charge_trap_pot(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, x=0, y=0, z=0):
+
+        """
+        Returns a potential due to charge trap given x, y, z co-ordinates of charge trap and x, y, z co-orfinates of points 
+        
+        Args: 
+            x_ct (float): x co-ordinate of charge trap
+            y_ct (float): y co-ordinate of charge trap
+            z_ct (float): z co-ordinate of charge trap
+            z_im (float): z co-ordinate of image charge
+            x (float): x co-ordinate of point where potential needs to be found
+            y (float): y co-ordinate of point where potential needs to be found
+            z (float): z co-ordinate of point where potential needs to be found
+
+        Note:
+
+            Take qd reference level as z=0 and take other z's accordingly
+ 
+        """
+
+        er = 11.7           ### dieelctric constant of Si
+
+        x_im = x_ct         ### x image same as x charge trap 
+        y_im = y_ct         ### y image same as y charge trap
+
+        dis_a = abs(np.sqrt((x_ct-x)**2 + (y_ct-y)**2 + (z_ct-z)**2))
+        dis_b = abs(np.sqrt((x_im-x)**2 + (y_im-y)**2 + (z_im-z)**2))
+
+        #print(dis_a, dis_b)
+
+        return 1.13 * k0_e/er * (1/dis_a - 1/dis_b)     ### in meV units, ee = 1 
+    
+    def charge_pot_lattice(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0):
+
+        """
+        Returns a mnXmn sparse array where sc region has zero potential and semiconductor region has potential due to charge trap 
+        
+        Args: 
+            x_ct (float): x co-ordinate of charge trap
+            y_ct (float): y co-ordinate of charge trap
+            z_ct (float): z co-ordinate of charge trap
+            z_im (float): z co-ordinate of image charge
+            z_qw (float): z co-ordinate of quantum well or the plane of 2DHG 
+
+        Note:
+            Take qd reference level as z=0 and take other z's accordingly
+
+        """
+
+        row = []
+        col = []
+        data = []
+
+        for i in range(self.nsc, self.nsm+self.nsc):
+
+            for j in range(self.m):
+
+                x_coord =  (i+1)*self.ax
+                y_coord =  (j+1)*self.ay
+
+                row.append(i + self.n*j)    
+                col.append(i + self.n*j)              
+                data.append(self.charge_trap_pot(x_ct, y_ct, z_ct, z_im, x_coord, y_coord, z_qw))
+
+        M = csr_matrix((data, (row, col)), shape=( self.m * self.n, self.m * self.n))
+
+        return M
+
     def spin_orbit(self, s, so='cu', kx=0, ky=0):
 
         """
@@ -186,11 +255,11 @@ class twoD_Minimal_Model:
 
             return self.twodOP.zer()
 
-    def H_same_spin(self, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
+    def H_same_spin(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
 
-        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.dis_pot_matrix(dis_mag) +self.Disorder_full(uncorr_var, lmbda, seed))
+        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.charge_pot_lattice(x_ct, y_ct, z_ct, z_im, z_qw) +self.dis_pot_matrix(dis_mag) +self.Disorder_full(uncorr_var, lmbda, seed) )
  
-    def H_s_sp(self, s, sp, so='cu', dis_mag=0, uncorr_var=1, lmbda=0, seed= None, kx=0, ky=0):
+    def H_s_sp(self, s, sp, so='cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed= None, kx=0, ky=0):
 
         """
         returns  <s|H|sp>
@@ -203,13 +272,13 @@ class twoD_Minimal_Model:
 
         if s==sp:
 
-            return self.H_same_spin(dis_mag,uncorr_var, lmbda, seed, kx, ky)
+            return self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag,uncorr_var, lmbda, seed, kx, ky)
         
         else:
 
             return self.spin_orbit(s, so, kx, ky)
 
-    def H_particle(self, so = 'cu', dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
+    def H_particle(self, so = 'cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
 
         """
         returns  Particle space Hamiltonian
@@ -224,7 +293,7 @@ class twoD_Minimal_Model:
 
             for sp in range(2):
 
-                H = hstack( ( H, self.H_s_sp(s, sp, so, dis_mag, uncorr_var, lmbda, seed, kx, ky) ) )
+                H = hstack( ( H, self.H_s_sp(s, sp, so, x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, kx, ky) ) )
 
             V = vstack((V,H))
 
@@ -292,13 +361,13 @@ class twoD_Minimal_Model:
 
         return V
     
-    def H_sys(self,phi=0, so = 'cu', dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
+    def H_sys(self,phi=0, so = 'cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
 
         ### -kx, -ky of hole space matrix only matters in case of periodic         
 
         M = bmat([
-           [self.H_particle( so, dis_mag, uncorr_var, lmbda, seed, kx, ky), self.Delta_mat(phi)],
-           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, dis_mag, uncorr_var, lmbda, seed, -kx, -ky).conjugate()]
+           [self.H_particle( so, x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, kx, ky), self.Delta_mat(phi)],
+           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, -kx, -ky).conjugate()]
        ]) 
 
         return M
@@ -377,7 +446,8 @@ class twoD_Minimal_Model:
         # define constant of SHo wavefunctions 
 
         kappa = self.omega/hbm*self.meff_sm
-        normalization_const = 1/math.sqrt(2**ne * math.factorial(ne))*(kappa/2/math.pi)**(0.25)
+        #kappa = self.omega/hbm         ### No meff here 
+        normalization_const = 1/math.sqrt(2**ne * math.factorial(ne))*(kappa/2/math.pi)**(0.25)*self.ay**(0.5)
 
         # Create the Hermite polynomial 
         coefficients = np.zeros(ne+1)
@@ -403,30 +473,101 @@ class twoD_Minimal_Model:
         return wvfn[yj], wvfn      
 
     def U_dag(self, my):
-
+        
         """
-
-        Returns sparse matrix of shape(my n X mn)
+        Returns sparse matrix of shape (my * n, m * n)
 
         Args:
             my: No. of y subbands 
+        """
+        row = []
+        col = []
+        data = []        
+
+        for i in range(self.n):
+            for j in range(my):
+                d, p = self.SHO_wvfn(ne=j, yj=0)
+                for k in range(self.m):
+                    row.append(j * self.n + i)    
+                    col.append(k * self.n + i)               
+                    data.append(p[k])
+
+        M = csr_matrix((data, (row, col)), shape=(my * self.n, self.m * self.n))
+
+        return M
+    
+    def U_dag_ph(self, my=1):
+
+        M = bmat([
+            [ self.U_dag(my), None],
+            [None, self.U_dag(my).conjugate()],
+        ])
+
+        return M
+    
+    def U_num(self, my, kx=0, ky=0):
 
         """
-        row = np.empty(0)
-        col = np.empty(0)
-        data = np.empty(0)
+        Returns U matrix using eigenvalues found from numerical model 
+        """
+        
+
+        H = 1/4/hbm*self.meff_sm*self.omega**2*self.onedOP.ysq() + hbm/self.meff_sm* self.onedOP.KySq(ky) 
+
+        E, V = eigsh(H, k=my, sigma=0, return_eigenvectors=True)
+
+        sorted_index = np.argsort(E)
+
+        sorted_V = V[:, sorted_index]
+
+        sorted_E = E[sorted_index]
+
+        #print(sorted_E)
+
+        #print(sorted_V.shape)
+
+        row = []
+        col = []
+        data = []
 
         for i in range(self.n):
 
-            for j in range(my):
+            for j in range(self.m):
 
-                for k in range(self.m):
+                for k in range(my):
 
-                    row = np.append(row, j*self.n + i)    
-                    col = np.append(col, k*self.n + i)
-                    d, p = self.SHO_wvfn(ne= j, yj=k)
-                    data = np.append(data, d )
+                    row.append(i + self.n*j)    
+                    col.append(i + self.n*k)              
+                    data.append(sorted_V[j, k])
 
-        M = csr_matrix((data,(row,col)),shape=(my*self.n, self.m*self.n))
+        M = csr_matrix((data, (row, col)), shape=( self.m * self.n, my * self.n))
 
         return M
+    
+    def U_num_ph(self, my=1):
+
+        M = bmat([
+            [ self.U_num(my), None],
+            [None, self.U_num(my).conjugate()],
+        ])
+
+        return M
+
+    def Hamiltonian_simplified(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0, phi=0):
+
+        M = bmat([
+           [self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, kx, ky ), self.Del_array(phi) ],
+           [self.Del_array(phi).conjugate().transpose(),-self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, -kx, -ky).conjugate() ]
+       ]) 
+
+        return M
+
+    def Ham_changed_basis(self,  x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0, phi=0, my=1):
+
+        S = self.U_num_ph(my)         ### used u num operator to change basis as it is more accurate 
+
+        S_dag = S.conjugate().transpose()
+
+        H = self.Hamiltonian_simplified(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, kx, ky,phi)
+
+        return S_dag.dot(H).dot(S)
