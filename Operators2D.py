@@ -1049,7 +1049,7 @@ class Operators_2d:
                 
                     row = np.append(row, j*self.n + i)
                     col = np.append(col, j*self.n + i)
-                    data = np.append(data, ((j+1)*self.ay-shift)**2)
+                    data = np.append(data, ((j)*self.ay-shift)**2)
 
             M = csr_matrix((data,(row,col)),shape=(self.m*self.n, self.m*self.n))
 
