@@ -27,3 +27,8 @@ hbar_mev = hbar/ee*1000   # in meV-s
 me = 9.11*10**(-31);      #in kg
 hbm = hbar**2*1000/2/me/ee/(1e-18) #in meV (nm)**2
 
+ep0 = 8.85 *1E-24 ### epsilon knot in C/mV/nm
+
+k0 = 1/4/math.pi/ep0 ### in mV nm /C
+
+k0_e = k0 * ee ### in meV nm 
