@@ -1,0 +1,17 @@
+sample no. 0
+sample no. 1
+sample no. 2
+sample no. 3
+sample no. 4
+meff: 0.005
+CSOC: 400
+uncorrvar: 1167
+lmbda: 0.25
+Mean: 0.18497085651238754
+Variance: 0.02682090317797009
+spin splitting array for cubic(in units of SC gap): [[0.1370277 ]
+ [0.25285095]
+ [0.0438113 ]
+ [0.46910485]
+ [0.02205948]]
+for spin splitting array w/o disorder refer to end line of of file cubic_spin_splitting_wdisorder.txt

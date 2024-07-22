@@ -1,0 +1,16 @@
+sample no. 0
+sample no. 1
+sample no. 2
+sample no. 3
+sample no. 4
+meff: 0.023
+LSOC: 20
+uncoor var mag: 1167
+lmbda: 0.05
+Mean: 2.7341162837021846
+Variance: 10.607785152869315
+sPIN SPLITTING ARRAY FOR linear [[0.04643811]
+ [6.66435564]
+ [0.15616583]
+ [0.02312258]
+ [6.78049925]] 

@@ -18,8 +18,8 @@ M = 60             # should be atleast thrice confinement length
 AX = 5             # lattice spacing in nm
 AY = 5             # lattice spacing in nm
 DELTA = 0.165      # in meV
-MEFF_SC = 0.023     # proximitized InAs
-MEFF_SM = 0.023     # InAs
+MEFF_SC = 0.005     # proximitized Ge
+MEFF_SM = 0.005     # Ge
 NSC = 800
 NTOT = 2*NSC + NSM
 PHI = 0.5*np.pi 
@@ -30,18 +30,18 @@ K_NUM = 8          # No of eigenvalues needed to be found
 LY = 100           # Width in nm
 OMEGA = 2*4*hbm/LY**2/MEFF_SC
 
-MU_SC =  0.8 + OMEGA/2   #in between two subbands
-MU_SM =  0.8 + OMEGA/2   #in between two subbands
+MU_SC =  OMEGA/10 + OMEGA/2   #in between two subbands
+MU_SM =  OMEGA/10 + OMEGA/2   #in between two subbands
 
 UNCORR_VAR = 1167  ### uncorrelated variance of disorder
 
-LMBDA = 1E-3  ## scaling of disorder
+LMBDA = 0.25  ## scaling of disorder
 
 #SEED = 42  ## seed for the disorder
  
 ### Sample 100 times for each value of uncorr_Var
 
-SAMPLE_NUM = 3
+SAMPLE_NUM = 5
 
 Ep_Split_cu = np.empty((SAMPLE_NUM,1))
 
@@ -71,6 +71,10 @@ splitting_mean_value = Ep_Split_cu.mean()
 # Calculating variance
 splitting_variance_value = Ep_Split_cu.var()
 
+print("meff: {}".format(MEFF_SM))
+
+print("CSOC: {}".format(ALPHAT))
+
 print("uncorrvar: {}".format(UNCORR_VAR))
 
 print("lmbda: {}".format(LMBDA))
@@ -78,7 +82,7 @@ print("lmbda: {}".format(LMBDA))
 print("Mean:", splitting_mean_value)
 print("Variance:", splitting_variance_value)
 
-print("spin splitting array for cubic: {}".format(Ep_Split_cu))
+print("spin splitting array for cubic(in units of SC gap): {}".format(Ep_Split_cu))
 
 print("for spin splitting array w/o disorder refer to end line of of file cubic_spin_splitting_wdisorder.txt")
 
