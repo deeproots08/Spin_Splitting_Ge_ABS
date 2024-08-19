@@ -255,11 +255,11 @@ class twoD_Minimal_Model:
 
             return self.twodOP.zer()
 
-    def H_same_spin(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
+    def H_same_spin(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, f_ct =0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
 
-        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() +self.charge_pot_lattice(x_ct, y_ct, z_ct, z_im, z_qw) +self.dis_pot_matrix(dis_mag) +self.Disorder_full(uncorr_var, lmbda, seed) )
+        return (hbm/self.meff_sm* self.twodOP.KxSq(kx) + hbm/self.meff_sm* self.twodOP.KySq(ky) - self.chem_pot() + 1/4/hbm*self.meff_sm*self.omega**2*self.twodOP.ysq() + f_ct*self.charge_pot_lattice(x_ct, y_ct, z_ct, z_im, z_qw) +self.dis_pot_matrix(dis_mag) +self.Disorder_full(uncorr_var, lmbda, seed) )
  
-    def H_s_sp(self, s, sp, so='cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed= None, kx=0, ky=0):
+    def H_s_sp(self, s, sp, so='cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, f_ct=0, dis_mag=0, uncorr_var=1, lmbda=0, seed= None, kx=0, ky=0):
 
         """
         returns  <s|H|sp>
@@ -272,13 +272,13 @@ class twoD_Minimal_Model:
 
         if s==sp:
 
-            return self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag,uncorr_var, lmbda, seed, kx, ky)
+            return self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, f_ct, dis_mag,uncorr_var, lmbda, seed, kx, ky)
         
         else:
 
             return self.spin_orbit(s, so, kx, ky)
 
-    def H_particle(self, so = 'cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
+    def H_particle(self, so = 'cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, f_ct=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
 
         """
         returns  Particle space Hamiltonian
@@ -293,7 +293,7 @@ class twoD_Minimal_Model:
 
             for sp in range(2):
 
-                H = hstack( ( H, self.H_s_sp(s, sp, so, x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, kx, ky) ) )
+                H = hstack( ( H, self.H_s_sp(s, sp, so, x_ct, y_ct, z_ct, z_im, z_qw, f_ct, dis_mag, uncorr_var, lmbda, seed, kx, ky) ) )
 
             V = vstack((V,H))
 
@@ -361,13 +361,13 @@ class twoD_Minimal_Model:
 
         return V
     
-    def H_sys(self,phi=0, so = 'cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
+    def H_sys(self,phi=0, so = 'cu', x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, f_ct=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0):
 
         ### -kx, -ky of hole space matrix only matters in case of periodic         
 
         M = bmat([
-           [self.H_particle( so, x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, kx, ky), self.Delta_mat(phi)],
-           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, -kx, -ky).conjugate()]
+           [self.H_particle( so, x_ct, y_ct, z_ct, z_im, z_qw, f_ct, dis_mag, uncorr_var, lmbda, seed, kx, ky), self.Delta_mat(phi)],
+           [-self.Delta_mat(phi).conjugate(), -self.H_particle( so, x_ct, y_ct, z_ct, z_im, z_qw, f_ct, dis_mag, uncorr_var, lmbda, seed, -kx, -ky).conjugate()]
        ]) 
 
         return M
@@ -553,21 +553,21 @@ class twoD_Minimal_Model:
 
         return M
 
-    def Hamiltonian_simplified(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0, phi=0):
+    def Hamiltonian_simplified(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, f_ct=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0, phi=0):
 
         M = bmat([
-           [self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, kx, ky ), self.Del_array(phi) ],
-           [self.Del_array(phi).conjugate().transpose(),-self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, -kx, -ky).conjugate() ]
+           [self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, f_ct, dis_mag, uncorr_var, lmbda, seed, kx, ky ), self.Del_array(phi) ],
+           [self.Del_array(phi).conjugate().transpose(),-self.H_same_spin(x_ct, y_ct, z_ct, z_im, z_qw, f_ct, dis_mag, uncorr_var, lmbda, seed, -kx, -ky).conjugate() ]
        ]) 
 
         return M
 
-    def Ham_changed_basis(self,  x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0, phi=0, my=1):
+    def Ham_changed_basis(self,  x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0, f_ct=0, dis_mag=0, uncorr_var=1, lmbda=0, seed=None, kx=0, ky=0, phi=0, my=1):
 
         S = self.U_num_ph(my)         ### used u num operator to change basis as it is more accurate 
 
         S_dag = S.conjugate().transpose()
 
-        H = self.Hamiltonian_simplified(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, uncorr_var, lmbda, seed, kx, ky,phi)
+        H = self.Hamiltonian_simplified(x_ct, y_ct, z_ct, z_im, z_qw, dis_mag, f_ct, uncorr_var, lmbda, seed, kx, ky,phi)
 
         return S_dag.dot(H).dot(S)
