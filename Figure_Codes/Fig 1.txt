@@ -1,0 +1,84 @@
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Fig 1 
+-------------------------------------------------------------------------------------------------------------------------------------
+
+b) compact groun dand gates X
+c) thicken the lines X
+
+arrange them vertically x
+
+or move panel to separate figure  x
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Fig 2 
+-------------------------------------------------------------------------------------------------------------------------------------
+
+stack vertically make onecolumn' X
+
+no grid lines X
+
+No log in the labels and axis name  X
+
+make the slope line parallel but not on top X
+
+c) make solid line thicker X
+
+c) choose different colors X
+
+b) no red and green - choose more accessible palatte X
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Fig 3 
+-------------------------------------------------------------------------------------------------------------------------------------
+
+stack vertically make one column 
+
+thicken the line  
+
+try multiple versions 
+
+plot boxes 
+
+Energy, E like a plot 
+
+wavevector, Kx
+
+remove centre  line 
+
+no dotted line - chemical potential , make it x axis 
+
+font size consistent 
+
+italicize same way as text
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Fig 4 
+-------------------------------------------------------------------------------------------------------------------------------------
+
+make one column
+
+ct not italicize , y italicize 
+
+Coordinate, no y 
+
+fraction dont make it on top of each other make them in line 
+
+tick for 300 nm 
+
+b) arrows on both side for label y ct 
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Fig 5 
+-------------------------------------------------------------------------------------------------------------------------------------
+
+a, b ) make it one column fig 
+
+make inser more square
+
+capitalize first letter in axis label 
+
+abbreviate confinement energy make it shorter
+
+think another word for equivalent energy 
