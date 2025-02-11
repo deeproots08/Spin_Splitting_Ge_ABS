@@ -7,6 +7,8 @@ from scipy.sparse.linalg import eigsh,eigs
 import matplotlib.pyplot as plt
 import sys
 import random
+from matplotlib.ticker import MaxNLocator
+
 
 #from ast import Del
 #from numpy.linalg import eigvals, eigvalsh
