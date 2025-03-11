@@ -77,8 +77,8 @@ class Image_charge_calculator:
 
     def rule_iii(self, q3i, z3i, level):
 
-        if abs(q3i / self.q_ct) < self.delta:
-            return  # Termination condition
+        #if abs(q3i / self.q_ct) < self.delta:
+        #    return  # Termination condition
 
         q4j = -1 * q3i
         z4j = -z3i
