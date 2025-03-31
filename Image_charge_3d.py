@@ -1,5 +1,5 @@
 from config import *
-
+ 
 
 class Image_charge_calculator:
 
@@ -187,9 +187,9 @@ class Charge_in_medium3(Image_charge_calculator):
 
             ele[0] = ele[0]+ ic[0]*(z-ic[1])/denom
 
-            ele[1] = ele[1]+ ic[0]*(y)/denom
+            ele[1] = ele[1]+ ic[0]*(y-self.y_ct)/denom
 
-            ele[2] = ele[2]+ ic[0]*(x)/denom
+            ele[2] = ele[2]+ ic[0]*(x-self.x_ct)/denom
 
         return k0/self.ep1*ele
     
@@ -203,9 +203,9 @@ class Charge_in_medium3(Image_charge_calculator):
 
             ele[0] = ele[0]+ ic[0]*(z-ic[1])/denom
 
-            ele[1] = ele[1]+ ic[0]*(y)/denom
+            ele[1] = ele[1]+ ic[0]*(y-self.y_ct)/denom
 
-            ele[2] = ele[2]+ ic[0]*(x)/denom
+            ele[2] = ele[2]+ ic[0]*(x-self.x_ct)/denom
 
         for ic in self.image_charges_q2s:
 
@@ -213,9 +213,9 @@ class Charge_in_medium3(Image_charge_calculator):
 
             ele[0] = ele[0]+ ic[0]*(z-ic[1])/denom
 
-            ele[1] = ele[1]+ ic[0]*(y)/denom
+            ele[1] = ele[1]+ ic[0]*(y-self.y_ct)/denom
 
-            ele[2] = ele[2]+ ic[0]*(x)/denom
+            ele[2] = ele[2]+ ic[0]*(x-self.x_ct)/denom
 
         return k0/self.ep2*ele
     
@@ -229,9 +229,9 @@ class Charge_in_medium3(Image_charge_calculator):
 
             ele[0] = ele[0]+ ic[0]*(z-ic[1])/denom
 
-            ele[1] = ele[1]+ ic[0]*(y)/denom
+            ele[1] = ele[1]+ ic[0]*(y-self.y_ct)/denom
 
-            ele[2] = ele[2]+ ic[0]*(x)/denom
+            ele[2] = ele[2]+ ic[0]*(x-self.x_ct)/denom
 
         for ic in self.image_charges_q4s:
 
@@ -239,9 +239,9 @@ class Charge_in_medium3(Image_charge_calculator):
 
             ele[0] = ele[0]+ ic[0]*(z-ic[1])/denom
 
-            ele[1] = ele[1]+ ic[0]*(y)/denom
+            ele[1] = ele[1]+ ic[0]*(y-self.y_ct)/denom
 
-            ele[2] = ele[2]+ ic[0]*(x)/denom
+            ele[2] = ele[2]+ ic[0]*(x-self.x_ct)/denom
 
         return k0/self.ep3*ele
 
