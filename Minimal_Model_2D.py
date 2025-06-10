@@ -205,8 +205,8 @@ class twoD_Minimal_Model:
 
             for j in range(self.m):
 
-                x_coord =  (i+1)*self.ax
-                y_coord =  (j+1)*self.ay
+                x_coord =  (i)*self.ax
+                y_coord =  (j)*self.ay
 
                 row.append(i + self.n*j)    
                 col.append(i + self.n*j)              
