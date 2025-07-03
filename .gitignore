@@ -1,2 +1,5 @@
 venv/
 venv_Ge_SNS/
+venv/
+__pycache__/
+*.pyc
