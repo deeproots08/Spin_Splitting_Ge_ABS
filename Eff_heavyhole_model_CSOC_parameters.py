@@ -7,11 +7,13 @@ from scipy.sparse.linalg import eigsh,eigs
 
 ###defining universal constants##
 
-hbar = 1.055*10**(-34);   #in J-s
-ee = 1.602*10**(-19);     #in C
-hbar_mev = hbar/ee*1000   # in meV-s
-me = 9.11*10**(-31);      #in kg
-hbm = hbar**2*1000/2/me/ee/(1e-18) #in meV (nm)**2
+#hbar = 1.055*10**(-34);   #in J-s
+#ee = 1.602*10**(-19);     #in C
+#hbar_mev = hbar/ee*1000   # in meV-s
+#me = 9.11*10**(-31);      #in kg
+#hbm = hbar**2*1000/2/me/ee/(1e-18) #in meV (nm)**2
+
+from config import *
 
 ### defining germanium constants - Winkler SOC book ###
 
@@ -119,6 +121,7 @@ class Eff_hh_model_cubic_param:
             M = M + N*p2**2/(p2**2-1)**3*A
 
         return M
+
 
 
 
