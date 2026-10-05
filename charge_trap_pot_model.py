@@ -140,7 +140,7 @@ class Image_charge_model(twoD_Minimal_Model):
 
         ### here z_im is redundant #####
 
-        ###q_ct = 1 because charge value is included in cont k0_e #### 
+        ###q_ct = 1 because charge value is included in const k0_e #### 
 
         self.image_charges_q5s, self.image_charges_q4s, self.image_charges_q3s, self.image_charges_q2s, self.image_charges_q1s = Image_charge_calculator(q_ct=1, z_ct=z_ct, ep_ge=self.ep_ge, ep_sige=self.ep_sige, ep_ox=self.ep_ox, t_sige=self.t_sige, t_ox=self.t_ox, r=self.r).calc_image_charges()
 
@@ -154,4 +154,75 @@ class Image_charge_model(twoD_Minimal_Model):
 
 
         return k0_e/self.ep_ge*pot ### k0_e is 1/4/pi/epsilon0*ee in meV-nm 
+
+    def charge_pot_lattice(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0):
+    
+            """
+            same as minimal model 2D  
+            Returns a mnXmn sparse array where sc region has zero potential and semiconductor region has potential due to charge trap 
+            
+            Args: 
+                x_ct (float): x co-ordinate of charge trap
+                y_ct (float): y co-ordinate of charge trap
+                z_ct (float): z co-ordinate of charge trap
+                z_im (float): z co-ordinate of image charge
+                z_qw (float): z co-ordinate of quantum well or the plane of 2DHG 
+    
+            Note:
+                Take qd reference level as z=0 and take other z's accordingly
+    
+            """
+    
+            row = []
+            col = []
+            data = []
+    
+            for i in range(self.nsc, self.nsm+self.nsc):
+    
+                for j in range(self.m):
+    
+                    x_coord =  (i)*self.ax
+                    y_coord =  (j)*self.ay
+    
+                    row.append(i + self.n*j)    
+                    col.append(i + self.n*j)              
+                    data.append(self.charge_trap_pot(x_ct, y_ct, z_ct, z_im, x_coord, y_coord, z_qw))
+    
+            M = csr_matrix((data, (row, col)), shape=( self.m * self.n, self.m * self.n))
+    
+            return M
+
+    def H_charge_trap_particle(self, x_ct= 0, y_ct=0, z_ct=50, z_im=50.2, z_qw=0):
+
+        """
+        returns  Particle space Hamiltonian for charge trap only shape 2mnX2mn
+                
+        """
+
+        M_ct_spin = self.charge_pot_lattice(x_ct, y_ct, z_ct, z_im, z_qw)
+
+        M = block_diag((M_ct_spin, M_ct_spin), format='csr')
+
+        """
+        M = bmat([
+            [M_ct_spin, 0],
+            [0, M_ct_spin]
+        ]) 
+        """
+        return M
+    
+    def H_charge_trap_sys(self, x_ct=0, y_ct=0, z_ct=0, z_im=50.2, z_qw=0 ):
+        
+        Mp = self.H_charge_trap_particle( x_ct, y_ct, z_ct, z_im, z_qw)
+
+        M = block_diag((Mp, -Mp.conjugate()), format='csr')
+
+        """
+        M = bmat([
+            [self.H_charge_trap_particle( x_ct, y_ct, z_ct, z_im, z_qw), 0],
+            [0, -self.H_particle( x_ct, y_ct, z_ct, z_im, z_qw).conjugate()]
+        ]) 
+        """
+        return M
+    
 
