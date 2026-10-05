@@ -28,6 +28,8 @@ These are the analysis files for the manuscript.  <br>
 13. Fig1 - Figure_code_final/Andreev_Bound_Spectrum.ipynb <br>
 14. Fig2 - Figure_Codes\Variation_ss_soc_linear_cubic_2d_together_75nm.ipynb <br>
 15. Fig3 - Figure_code_final\lsoc_csoc_spectrum.ipynb, Figure_code_final\lsoc_csoc_spectrum_zoom.ipynb<br>
-16. Fig4 - Figure_code_final\Es_vs_omega_mu__zero_gradient_csoc_lsoc_together_final.ipynb, <br>                                                          disorder_charge_trap\cubic_linear_spin_Splitting_vs_yct_analysis_together.ipynb <br>
+16. Fig4 - Figure_code_final\Es_vs_omega_mu__zero_gradient_csoc_lsoc_together_4-layers.ipynb, <br>disorder_charge_trap\cubic_linear_spin_Splitting_vs_yct_analysis_together.ipynb <br>
+datasets: disorder_charge_trap\cubic_E_vs_yct_image_chrg_model_full_4_layers_full_pts_Vfinal_ax_ay_10_10.npy, disorder_charge_trap\linear_E_vs_yct_image_chrg_model_full_4_layers_full_pts_Vfinal_ax_ay_10_10.npy<br>
+Files for dataset generation:disorder_charge_trap\cubic_spin_splitting_charge_trap_effect_image_charge_model_4_layers_v4.ipynb, disorder_charge_trap\linear_spin_splitting_charge_trap_effect_image_charge_model_4_layers_v4.ipynb <br>
 17. Appendix D - sheet_of_charge_v2.ipynb, Image_charge_3d.py <br>
 
