@@ -2,7 +2,7 @@ import math
 import cmath
 import numpy as np
 from numpy.polynomial.hermite import Hermite
-from scipy.sparse import csr_matrix, coo_matrix,  bmat, diags, identity, issparse, vstack, hstack
+from scipy.sparse import csr_matrix, coo_matrix,  bmat, diags, identity, issparse, vstack, hstack, block_diag
 from scipy.sparse.linalg import eigsh,eigs
 import matplotlib.pyplot as plt
 import sys
@@ -33,4 +33,4 @@ ep0 = 8.85 *1E-24 ### epsilon knot in C/mV/nm
 
 k0 = 1/4/math.pi/ep0 ### in mV nm /C  ###  if you already take charge as ee instead of 1, use this 
 
-k0_e = k0 * ee ### in meV nm  ##### if you dont want to multiply by charge in code then use this 
+k0_e = k0 * ee ### in meV nm  ##### if you dont want to multiply by charge in code then use this ### 1439.41 meV nm
